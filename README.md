@@ -9,7 +9,6 @@ Planka App is an open-source mobile application developed using [Flutter](https:
 - **Task Management**: Add, update, delete, and organize tasks (cards) across lists.
 - **Attachments**: Upload and manage attachments for tasks.
 - **User Authentication**: Authenticate users through Planka's built-in authentication.
-- **Real-time Sync**: Keep data synchronized with the Planka backend in real-time.
 - **Multi-language Support**: Support for multiple languages (coming soon).
 
 ## Roadmap
@@ -22,7 +21,6 @@ Planka App is an open-source mobile application developed using [Flutter](https:
 
 ### v0.2 (Upcoming)
 - Caching
-- Push notifications for task updates.
 - Improved UI/UX based on user feedback.
 - Enhanced multi-language support.
 
@@ -94,4 +92,4 @@ If you need any help or have questions regarding the project, you can reach out 
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the The Commons Clause License. See the [LICENSE](https://commonsclause.com/) file for details.
