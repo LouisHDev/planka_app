@@ -1,0 +1,84 @@
+{
+  "app_name": "Planka App",
+  "login": "Se connecter",
+  "logout": "Se déconnecter",
+  "not_available_function": "Cette fonction n'est pas encore disponible.",
+  "project_name": "Nom du projet",
+  "create_project": "Créer un projet",
+  "create_card": "Ajouter une carte",
+  "login_fields": {
+    "0": "Email",
+    "1": "Mot de passe",
+    "2": "Adresse du serveur"
+  },
+  "not_valid_image": "Format non pris en charge.",
+  "settings": "Paramètres",
+  "change": "Modifier",
+  "not_empty_name": "Le nom ne peut pas être vide.",
+  "sort_after": "Trier par",
+  "move_all_from_list": "Déplacer toutes les cartes de cette liste",
+  "archive_all_from_list": "Archiver toutes les cartes de cette liste",
+  "delete_list": "Supprimer la liste",
+  "card_not_found": "Carte introuvable",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "no_boards": "Aucun tableau disponible",
+  "edit_board": "Modifier le tableau",
+  "board_name": "Nom du tableau",
+  "lists_for": "Listes pour",
+  "boards_for": "Tableaux pour",
+  "file_picker": {
+    "from_gallery": "Depuis ma galerie",
+    "from_photo": "Prendre une photo",
+    "from_file": "Sélectionner un fichier"
+  },
+  "failed_to_authenticate": "Échec de l'authentification",
+  "new_card": "Nouvelle carte",
+  "uploading_file": "Téléchargement du fichier...",
+  "downloaded_file": "Fichier joint téléchargé avec succès.",
+  "error_creating_card_missing_id": "Erreur de création de la carte : ID de carte invalide ou manquante.",
+  "added_attachment": "Fichier joint ajouté avec succès",
+  "no_file_selected": "Aucun fichier sélectionné",
+  "error": "Erreur",
+  "delete_list_confirmation": {
+    "0": "Supprimer la liste",
+    "1": "Êtes-vous sûr de vouloir supprimer cette liste ?"
+  },
+  "delete_card_confirmation": {
+    "0": "Supprimer la carte",
+    "1": "Êtes-vous sûr de vouloir supprimer cette carte ?"
+  },
+  "delete_attachment_confirmation": {
+    "0": "Supprimer le fichier joint",
+    "1": "Êtes-vous sûr de vouloir supprimer ce fichier joint ?"
+  },
+  "delete_comment_confirmation": {
+    "0": "Supprimer le commentaire",
+    "1": "Êtes-vous sûr de vouloir supprimer ce commentaire ?"
+  },
+  "delete_task_confirmation": {
+    "0": "Supprimer la tâche",
+    "1": "Êtes-vous sûr de vouloir supprimer cette tâche ?"
+  },
+  "delete_board_confirmation": {
+    "0": "Supprimer le tableau",
+    "1": "Êtes-vous sûr de vouloir supprimer ce tableau ?"
+  },
+  "posted_on": "Posté le",
+  "comment_not_empty": "Le commentaire ne peut pas être vide",
+  "comments": "Commentaires",
+  "no_comments_available": "Aucun commentaire disponible",
+  "write_comment": "Écrire un commentaire...",
+  "write_task": "Ajouter une tâche",
+  "downloading_file": "Téléchargement du fichier joint...",
+  "attachment_no_url": "Ce fichier joint n'a pas d'URL",
+  "attachments": "Fichiers joints",
+  "tasks": "Tâches",
+  "description": "Description",
+  "unknown_label": "Étiquette inconnue",
+  "labels": {
+    "0": "Nom de l'étiquette",
+    "2": "Le nom existe déjà."
+  },
+  "click_me_to_add_description": "Cliquez ici pour ajouter une description."
+}

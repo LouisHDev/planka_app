@@ -1,0 +1,84 @@
+{
+  "app_name": "App Planka",
+  "login": "Accedi",
+  "logout": "Esci",
+  "not_available_function": "Questa funzione non è ancora disponibile.",
+  "project_name": "Nome del progetto",
+  "create_project": "Crea progetto",
+  "create_card": "Aggiungi scheda",
+  "login_fields": {
+    "0": "Email",
+    "1": "Password",
+    "2": "Indirizzo del server"
+  },
+  "not_valid_image": "Formato non supportato.",
+  "settings": "Impostazioni",
+  "change": "Modifica",
+  "not_empty_name": "Il nome non può essere vuoto.",
+  "sort_after": "Ordina per",
+  "move_all_from_list": "Sposta tutte le schede in questa lista",
+  "archive_all_from_list": "Archivia tutte le schede in questa lista",
+  "delete_list": "Elimina lista",
+  "card_not_found": "Scheda non trovata",
+  "cancel": "Annulla",
+  "delete": "Elimina",
+  "no_boards": "Nessuna bacheca disponibile",
+  "edit_board": "Modifica bacheca",
+  "board_name": "Nome della bacheca",
+  "lists_for": "Liste per",
+  "boards_for": "Bacheche per",
+  "file_picker": {
+    "from_gallery": "Dalla mia galleria",
+    "from_photo": "Scatta una foto",
+    "from_file": "Seleziona file"
+  },
+  "failed_to_authenticate": "Autenticazione fallita",
+  "new_card": "Nuova scheda",
+  "uploading_file": "Caricamento del file in corso...",
+  "downloaded_file": "Allegato scaricato con successo.",
+  "error_creating_card_missing_id": "Errore nella creazione della scheda: ID scheda non valida o mancante.",
+  "added_attachment": "Allegato aggiunto con successo",
+  "no_file_selected": "Nessun file selezionato",
+  "error": "Errore",
+  "delete_list_confirmation": {
+    "0": "Elimina lista",
+    "1": "Sei sicuro di voler eliminare questa lista?"
+  },
+  "delete_card_confirmation": {
+    "0": "Elimina scheda",
+    "1": "Sei sicuro di voler eliminare questa scheda?"
+  },
+  "delete_attachment_confirmation": {
+    "0": "Elimina allegato",
+    "1": "Sei sicuro di voler eliminare questo allegato?"
+  },
+  "delete_comment_confirmation": {
+    "0": "Elimina commento",
+    "1": "Sei sicuro di voler eliminare questo commento?"
+  },
+  "delete_task_confirmation": {
+    "0": "Elimina attività",
+    "1": "Sei sicuro di voler eliminare questa attività?"
+  },
+  "delete_board_confirmation": {
+    "0": "Elimina bacheca",
+    "1": "Sei sicuro di voler eliminare questa bacheca?"
+  },
+  "posted_on": "Pubblicato il",
+  "comment_not_empty": "Il commento non può essere vuoto",
+  "comments": "Commenti",
+  "no_comments_available": "Nessun commento disponibile",
+  "write_comment": "Scrivi un commento...",
+  "write_task": "Aggiungi attività",
+  "downloading_file": "Download dell'allegato in corso...",
+  "attachment_no_url": "Questo allegato non ha un URL",
+  "attachments": "Allegati",
+  "tasks": "Attività",
+  "description": "Descrizione",
+  "unknown_label": "Etichetta sconosciuta",
+  "labels": {
+    "0": "Nome dell'etichetta",
+    "2": "Il nome esiste già."
+  },
+  "click_me_to_add_description": "Clicca qui per aggiungere una descrizione."
+}

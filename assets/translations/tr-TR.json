@@ -1,0 +1,84 @@
+{
+  "app_name": "Planka Uygulaması",
+  "login": "Giriş yap",
+  "logout": "Çıkış yap",
+  "not_available_function": "Bu özellik henüz mevcut değil.",
+  "project_name": "Proje Adı",
+  "create_project": "Proje oluştur",
+  "create_card": "Kart ekle",
+  "login_fields": {
+    "0": "E-posta",
+    "1": "Şifre",
+    "2": "Sunucu adresi"
+  },
+  "not_valid_image": "Desteklenmeyen format.",
+  "settings": "Ayarlar",
+  "change": "Değiştir",
+  "not_empty_name": "İsim boş olamaz.",
+  "sort_after": "Şuna göre sırala",
+  "move_all_from_list": "Bu listedeki tüm kartları taşı",
+  "archive_all_from_list": "Bu listedeki tüm kartları arşivle",
+  "delete_list": "Listeyi sil",
+  "card_not_found": "Kart bulunamadı",
+  "cancel": "İptal",
+  "delete": "Sil",
+  "no_boards": "Mevcut pano yok",
+  "edit_board": "Panoyu düzenle",
+  "board_name": "Pano Adı",
+  "lists_for": "Listeler için",
+  "boards_for": "Panolar için",
+  "file_picker": {
+    "from_gallery": "Galerimden",
+    "from_photo": "Fotoğraf çek",
+    "from_file": "Dosya seç"
+  },
+  "failed_to_authenticate": "Kimlik doğrulama hatası",
+  "new_card": "Yeni kart",
+  "uploading_file": "Dosya yükleniyor...",
+  "downloaded_file": "Dosya başarıyla indirildi.",
+  "error_creating_card_missing_id": "Kart oluşturulurken hata: Geçersiz veya eksik kart ID'si.",
+  "added_attachment": "Dosya başarıyla eklendi",
+  "no_file_selected": "Dosya seçilmedi",
+  "error": "Hata",
+  "delete_list_confirmation": {
+    "0": "Listeyi sil",
+    "1": "Bu listeyi silmek istediğinizden emin misiniz?"
+  },
+  "delete_card_confirmation": {
+    "0": "Kartı sil",
+    "1": "Bu kartı silmek istediğinizden emin misiniz?"
+  },
+  "delete_attachment_confirmation": {
+    "0": "Dosyayı sil",
+    "1": "Bu dosyayı silmek istediğinizden emin misiniz?"
+  },
+  "delete_comment_confirmation": {
+    "0": "Yorumu sil",
+    "1": "Bu yorumu silmek istediğinizden emin misiniz?"
+  },
+  "delete_task_confirmation": {
+    "0": "Görevi sil",
+    "1": "Bu görevi silmek istediğinizden emin misiniz?"
+  },
+  "delete_board_confirmation": {
+    "0": "Panoyu sil",
+    "1": "Bu panoyu silmek istediğinizden emin misiniz?"
+  },
+  "posted_on": "Yayınlanma tarihi",
+  "comment_not_empty": "Yorum boş olamaz",
+  "comments": "Yorumlar",
+  "no_comments_available": "Yorum bulunamadı",
+  "write_comment": "Yorum yaz...",
+  "write_task": "Görev ekle",
+  "downloading_file": "Dosya indiriliyor...",
+  "attachment_no_url": "Bu dosyanın URL'si yok",
+  "attachments": "Dosyalar",
+  "tasks": "Görevler",
+  "description": "Açıklama",
+  "unknown_label": "Bilinmeyen etiket",
+  "labels": {
+    "0": "Etiket adı",
+    "2": "Bu isim zaten mevcut."
+  },
+  "click_me_to_add_description": "Açıklama eklemek için tıklayın."
+}

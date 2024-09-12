@@ -1,0 +1,84 @@
+{
+  "app_name": "Planka App",
+  "login": "Login",
+  "logout": "Logout",
+  "not_available_function": "This function is not yet available.",
+  "project_name": "Project Name",
+  "create_project": "Create Project",
+  "create_card": "Add Card",
+  "login_fields": {
+    "0": "Email",
+    "1": "Password",
+    "2": "Server Address"
+  },
+  "not_valid_image": "Unsupported format.",
+  "settings": "Settings",
+  "change": "Change",
+  "not_empty_name": "The name cannot be empty.",
+  "sort_after": "Sort by",
+  "move_all_from_list": "Move all cards in this list",
+  "archive_all_from_list": "Archive all cards in this list",
+  "delete_list": "Delete list",
+  "card_not_found": "Card could not be found",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "no_boards": "No boards available",
+  "edit_board": "Edit Board",
+  "board_name": "Board Name",
+  "lists_for": "Lists for",
+  "boards_for": "Boards for",
+  "file_picker": {
+    "from_gallery": "From my Gallery",
+    "from_photo": "Take Photo",
+    "from_file": "Select File"
+  },
+  "failed_to_authenticate": "Failed to authenticate",
+  "new_card": "New Card",
+  "uploading_file": "Uploading file...",
+  "downloaded_file": "Attachment successfully downloaded.",
+  "error_creating_card_missing_id": "Error creating card: Invalid or missing card ID.",
+  "added_attachment": "Attachment successfully added",
+  "no_file_selected": "No file selected",
+  "error": "Error",
+  "delete_list_confirmation": {
+    "0": "Delete list",
+    "1": "Are you sure you want to delete this list?"
+  },
+  "delete_card_confirmation": {
+    "0": "Delete card",
+    "1": "Are you sure you want to delete this card?"
+  },
+  "delete_attachment_confirmation": {
+    "0": "Delete attachment",
+    "1": "Are you sure you want to delete this attachment?"
+  },
+  "delete_comment_confirmation": {
+    "0": "Delete comment",
+    "1": "Are you sure you want to delete this comment?"
+  },
+  "delete_task_confirmation": {
+    "0": "Delete task",
+    "1": "Are you sure you want to delete this task?"
+  },
+  "delete_board_confirmation": {
+    "0": "Delete board",
+    "1": "Are you sure you want to delete this board?"
+  },
+  "posted_on": "Posted on",
+  "comment_not_empty": "Comment cannot be empty",
+  "comments": "Comments",
+  "no_comments_available": "No comments available",
+  "write_comment": "Write a comment...",
+  "write_task": "Add task",
+  "downloading_file": "Downloading attachment...",
+  "attachment_no_url": "This attachment has no URL",
+  "attachments": "Attachments",
+  "tasks": "Tasks",
+  "description": "Description",
+  "unknown_label": "Unknown label",
+  "labels": {
+    "0": "Label name",
+    "2": "The name already exists."
+  },
+  "click_me_to_add_description": "Click me to add a description."
+}

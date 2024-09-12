@@ -1,0 +1,84 @@
+{
+  "app_name": "Planka App",
+  "login": "Anmelden",
+  "logout": "Abmelden",
+  "not_available_function": "Diese Funktion ist noch nicht verfügbar.",
+  "project_name": "Projekt Name",
+  "create_project": "Projekt erstellen",
+  "create_card": "Karte hinzufügen",
+  "login_fields": {
+    "0": "Email",
+    "1": "Passwort",
+    "2": "Serveradresse"
+  },
+  "not_valid_image": "Kein Unterstütztes Format.",
+  "settings": "Einstellungen",
+  "change": "Ändern",
+  "not_empty_name": "Der Name kann nicht leer sein.",
+  "sort_after": "Sortieren nach",
+  "move_all_from_list": "Alle Karten in dieser Liste verschieben",
+  "archive_all_from_list": "Alle Karten in dieser Liste archivieren",
+  "delete_list": "Liste löschen",
+  "card_not_found": "Karte konnte nicht gefunden werden",
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "no_boards": "Keine Boards vorhanden",
+  "edit_board": "Board bearbeiten",
+  "board_name": "Board Name",
+  "lists_for": "Listen für",
+  "boards_for": "Boards für",
+  "file_picker": {
+    "from_gallery": "Von meiner Gallerie",
+    "from_photo": "Foto aufnehmen",
+    "from_file": "Datei auswählen"
+  },
+  "failed_to_authenticate": "Fehler bei der Authentifizierung",
+  "new_card": "Neue Karte",
+  "uploading_file": "Datei wird hochgeladen...",
+  "downloaded_file": "Anhang wurde erfolgreich heruntergeladen.",
+  "error_creating_card_missing_id": "Fehler Erstellung einer Karte: Falsche oder fehlende Karten ID.",
+  "added_attachment": "Anhang wurde erfolgreich hinzugefügt",
+  "no_file_selected": "Keine Datei ausgewählt",
+  "error": "Fehler",
+  "delete_list_confirmation": {
+    "0": "Liste löschen",
+    "1": "Bist du dir sicher, dass du diese Liste löschen möchtest?"
+  },
+  "delete_card_confirmation": {
+    "0": "Karte löschen",
+    "1": "Bist du dir sicher, dass du diese Karte löschen möchtest?"
+  },
+  "delete_attachment_confirmation": {
+    "0": "Anhang löschen",
+    "1": "Bist du dir sicher, dass du diesen Anhang löschen möchtest?"
+  },
+  "delete_comment_confirmation": {
+    "0": "Kommentar löschen",
+    "1": "Bist du dir sicher, dass du diesen Kommentar löschen möchtest?"
+  },
+  "delete_task_confirmation": {
+    "0": "Aufgabe löschen",
+    "1": "Bist du dir sicher, dass du diese Aufgabe löschen möchtest?"
+  },
+  "delete_board_confirmation": {
+    "0": "Board löschen",
+    "1": "Bist du dir sicher, dass du dieses Board löschen möchtest?"
+  },
+  "posted_on": "Erstellt am",
+  "comment_not_empty": "Kommentar darf nicht leer sein",
+  "comments": "Kommentare",
+  "no_comments_available": "Keine Kommentare verfügbar",
+  "write_comment": "Kommentar verfassen...",
+  "write_task": "Aufgabe hinzufügen",
+  "downloading_file": "Anhang wird heruntergeladen...",
+  "attachment_no_url": "Dieser Anhang hat keine URL",
+  "attachments": "Anhänge",
+  "tasks": "Aufgaben",
+  "description": "Beschreibung",
+  "unknown_label": "Unbekanntes Label",
+  "labels": {
+    "0": "Label name",
+    "2": "Der Name existiert bereits."
+  },
+  "click_me_to_add_description": "Klicke mich um eine Beschreibung hinzuzufügen."
+}

@@ -1,0 +1,84 @@
+{
+  "app_name": "Planka App",
+  "login": "Iniciar sesión",
+  "logout": "Cerrar sesión",
+  "not_available_function": "Esta función no está disponible todavía.",
+  "project_name": "Nombre del proyecto",
+  "create_project": "Crear proyecto",
+  "create_card": "Añadir tarjeta",
+  "login_fields": {
+    "0": "Correo electrónico",
+    "1": "Contraseña",
+    "2": "Dirección del servidor"
+  },
+  "not_valid_image": "Formato no compatible.",
+  "settings": "Configuraciones",
+  "change": "Cambiar",
+  "not_empty_name": "El nombre no puede estar vacío.",
+  "sort_after": "Ordenar por",
+  "move_all_from_list": "Mover todas las tarjetas de esta lista",
+  "archive_all_from_list": "Archivar todas las tarjetas de esta lista",
+  "delete_list": "Eliminar lista",
+  "card_not_found": "No se pudo encontrar la tarjeta",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "no_boards": "No hay tableros disponibles",
+  "edit_board": "Editar tablero",
+  "board_name": "Nombre del tablero",
+  "lists_for": "Listas para",
+  "boards_for": "Tableros para",
+  "file_picker": {
+    "from_gallery": "De mi galería",
+    "from_photo": "Tomar foto",
+    "from_file": "Seleccionar archivo"
+  },
+  "failed_to_authenticate": "Error de autenticación",
+  "new_card": "Nueva tarjeta",
+  "uploading_file": "Subiendo archivo...",
+  "downloaded_file": "El archivo adjunto se descargó correctamente.",
+  "error_creating_card_missing_id": "Error al crear la tarjeta: ID de tarjeta no válida o faltante.",
+  "added_attachment": "Archivo adjunto agregado correctamente",
+  "no_file_selected": "No se seleccionó ningún archivo",
+  "error": "Error",
+  "delete_list_confirmation": {
+    "0": "Eliminar lista",
+    "1": "¿Estás seguro de que quieres eliminar esta lista?"
+  },
+  "delete_card_confirmation": {
+    "0": "Eliminar tarjeta",
+    "1": "¿Estás seguro de que quieres eliminar esta tarjeta?"
+  },
+  "delete_attachment_confirmation": {
+    "0": "Eliminar archivo adjunto",
+    "1": "¿Estás seguro de que quieres eliminar este archivo adjunto?"
+  },
+  "delete_comment_confirmation": {
+    "0": "Eliminar comentario",
+    "1": "¿Estás seguro de que quieres eliminar este comentario?"
+  },
+  "delete_task_confirmation": {
+    "0": "Eliminar tarea",
+    "1": "¿Estás seguro de que quieres eliminar esta tarea?"
+  },
+  "delete_board_confirmation": {
+    "0": "Eliminar tablero",
+    "1": "¿Estás seguro de que quieres eliminar este tablero?"
+  },
+  "posted_on": "Publicado el",
+  "comment_not_empty": "El comentario no puede estar vacío",
+  "comments": "Comentarios",
+  "no_comments_available": "No hay comentarios disponibles",
+  "write_comment": "Escribir un comentario...",
+  "write_task": "Agregar tarea",
+  "downloading_file": "Descargando archivo adjunto...",
+  "attachment_no_url": "Este archivo adjunto no tiene URL",
+  "attachments": "Archivos adjuntos",
+  "tasks": "Tareas",
+  "description": "Descripción",
+  "unknown_label": "Etiqueta desconocida",
+  "labels": {
+    "0": "Nombre de la etiqueta",
+    "2": "El nombre ya existe."
+  },
+  "click_me_to_add_description": "Haz clic aquí para añadir una descripción."
+}
