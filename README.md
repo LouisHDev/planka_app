@@ -87,8 +87,8 @@ In the current App state, you will have to often refresh or go back to the board
 
 If you need any help or have questions regarding the project, you can reach out to the maintainer:
 
-- [E-Mail](mailto:louis@bbsl.de)
-- [GitHub](https://github.com/randomdev05)
+- [GitHub](https://github.com/LouisHDev)
+- Requests over Mail are not guaranteed to be answered.
 
 ## License
 
