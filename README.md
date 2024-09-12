@@ -37,7 +37,7 @@ Planka App is an open-source mobile application developed using [Flutter](https:
 1.Clone this repository:
 
    ```bash
-   git clone https://github.com/yourusername/planka_app.git
+   git clone https://github.com/LouisHDev/planka_app.git
    ```
 
 2.Navigate to the project directory:
@@ -77,7 +77,7 @@ Before contributing, please ensure that all changes:
 
 ## Issues
 
-If you find any bugs or want to suggest new features, feel free to [open an issue](https://github.com/randomdev05/planka_app/issues).
+If you find any bugs or want to suggest new features, feel free to [open an issue](https://github.com/LouisHDev/planka_app/issues).
 
 ## Info
 
