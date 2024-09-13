@@ -13,19 +13,11 @@ Planka App is an open-source mobile application developed using [Flutter](https:
 
 ## Roadmap
 
-### v0.1 (Initial Release)
-- Basic task and board management.
-- Integration with Planka API.
-- User authentication and session management.
-- Attachment support for tasks.
-
-### v0.2 (Upcoming)
-- Caching
-- Improved UI/UX based on user feedback.
-- Enhanced multi-language support.
-
-### v0.3 (Future)
-- Got any Suggestions?
+- App Wide Caching
+- Enhanced Multi Language Support
+- Renaming, Deleting, Creating of Projects
+- Deleting and Creating of Boards
+- Got any suggestions?
 
 ## Installation
 
@@ -58,6 +50,10 @@ Planka App is an open-source mobile application developed using [Flutter](https:
    flutter run
    ```
 
+5.Tipp:
+
+Don´t forget to add your local.properties for developing :)
+
 ## Contributing
 
 We welcome contributions to improve the Planka App! Whether you want to fix bugs, add new features, or improve documentation, your help is appreciated.
@@ -79,9 +75,13 @@ Before contributing, please ensure that all changes:
 
 If you find any bugs or want to suggest new features, feel free to [open an issue](https://github.com/LouisHDev/planka_app/issues).
 
+## Release
+
+All the APK´s of the versions can be found as attachments below each release. For IOS, please reach out to me.
+
 ## Info
 
-In the current App state, you will have to often refresh or go back to the boards and then back into whereever you were again. This is due to no caching at the moment. Planning to add this in the next Version. So keep in mind. The changes you´ve made are already on the Server, just not showing instantly.
+In the current App state, you will have to often refresh or go back to the boards and then back into where ever you were again. This is due to no caching at the moment. Planning to add this in the next Version. So keep in mind. The changes you´ve made are already on the Server, just not showing instantly.
 
 ## Support
 
