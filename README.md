@@ -97,9 +97,4 @@ This project is licensed under the The Commons Clause License. See the [LICENSE]
 # App Preview
 
 <img src="assets/images/github_page/app_2.png" width="300"/>   <img src="assets/images/github_page/app_3.png" width="300"/>   <img src="assets/images/github_page/app_4.png" width="300"/>
-
-
 <img src="assets/images/github_page/app_5.png" width="300"/>   <img src="assets/images/github_page/app_6.png" width="300"/>   <img src="assets/images/github_page/app_8.png" width="300"/>
-
-
-
