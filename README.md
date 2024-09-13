@@ -93,3 +93,13 @@ If you need any help or have questions regarding the project, you can reach out 
 ## License
 
 This project is licensed under the The Commons Clause License. See the [LICENSE](https://commonsclause.com/) file for details.
+
+# App Preview
+
+<img src="assets/images/github_page/app_2.png" width="300"/>   <img src="assets/images/github_page/app_3.png" width="300"/>   <img src="assets/images/github_page/app_4.png" width="300"/>
+
+
+<img src="assets/images/github_page/app_5.png" width="300"/>   <img src="assets/images/github_page/app_6.png" width="300"/>   <img src="assets/images/github_page/app_7.png" width="300"/>
+
+
+<img src="assets/images/github_page/app_8.png" width="300"/>
