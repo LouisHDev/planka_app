@@ -86,6 +86,8 @@
     "set_time": "Imposta Ora",
     "hours": "Ore",
     "minutes": "Minuti",
-    "seconds": "Secondi"
+    "seconds": "Secondi",
+    "timer_already_present": "Un timer esiste già per questa scheda.",
+    "timer_create": "Crea timer"
   }
 }

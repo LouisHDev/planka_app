@@ -86,6 +86,8 @@
     "set_time": "Set Time",
     "hours": "Hours",
     "minutes": "Minutes",
-    "seconds": "Seconds"
+    "seconds": "Seconds",
+    "timer_already_present": "A timer already exists for this card.",
+    "timer_create": "Create timer"
   }
 }

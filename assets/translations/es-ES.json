@@ -86,6 +86,8 @@
     "set_time": "Establecer Tiempo",
     "hours": "Horas",
     "minutes": "Minutos",
-    "seconds": "Segundos"
+    "seconds": "Segundos",
+    "timer_already_present": "Ya existe un temporizador para esta tarjeta.",
+    "timer_create": "Crear temporizador"
   }
 }

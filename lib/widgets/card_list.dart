@@ -584,6 +584,43 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
           //   },
           // ),
           Bubble(
+            title: 'timer_create'.tr(),
+            iconColor: Colors.white,
+            bubbleColor: Colors.indigo,
+            icon: Icons.timer, // Changed the icon to represent starting the timer
+            titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () async {
+              // Check if the stopwatch is null
+              if (widget.card.stopwatchTotal == null && widget.card.stopwatchStartedAt == null) {
+                // Start the timer by setting the properties and updating the server
+                widget.card.stopwatchTotal = 0;
+                widget.card.stopwatchStartedAt = DateTime.now();
+
+                // Update on the server
+                await Provider.of<CardProvider>(context, listen: false).updateStopwatch(
+                  context: context,
+                  cardId: widget.card.id,
+                  stopwatchTotal: widget.card.stopwatchTotal!,
+                  stopwatchStartedAt: widget.card.stopwatchStartedAt.toString(),
+                );
+
+                // Optionally, refresh the UI
+                setState(() {});
+
+                _animationController.reverse();
+              } else {
+                showTopSnackBar(
+                  Overlay.of(context),
+                  CustomSnackBar.info(
+                    message: 'timer_already_present'.tr(),
+                  ),
+                );
+
+                _animationController.reverse();
+              }
+            },
+          ),
+          Bubble(
             title: 'delete'.tr(),
             iconColor: Colors.white,
             bubbleColor: Colors.indigo,

@@ -80,12 +80,14 @@
     "0": "Etiket adı",
     "2": "Bu isim zaten mevcut."
   },
-  "click_me_to_add_description": "Açıklama eklemek için tıklayın.","stopwatch_controls": {
-  "title": "Kronometreyi Kontrol Et",
-  "set_time": "Zamanı Ayarla",
-  "hours": "Saat",
-  "minutes": "Dakika",
-  "seconds": "Saniye"
-},
-
+  "click_me_to_add_description": "Açıklama eklemek için tıklayın.",
+  "stopwatch_controls": {
+    "title": "Kronometreyi Kontrol Et",
+    "set_time": "Zamanı Ayarla",
+    "hours": "Saat",
+    "minutes": "Dakika",
+    "seconds": "Saniye",
+    "timer_already_present": "Bu kart için zaten bir zamanlayıcı var.",
+    "timer_create": "Zamanlayıcı oluştur"
+  }
 }
