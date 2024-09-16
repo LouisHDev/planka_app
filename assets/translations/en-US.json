@@ -80,5 +80,12 @@
     "0": "Label name",
     "2": "The name already exists."
   },
-  "click_me_to_add_description": "Click me to add a description."
+  "click_me_to_add_description": "Click me to add a description.",
+  "stopwatch_controls": {
+    "title": "Control Stopwatch",
+    "set_time": "Set Time",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
+  }
 }

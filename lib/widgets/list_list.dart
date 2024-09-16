@@ -391,6 +391,7 @@ class _ListListState extends State<ListList> {
                       if (card.stopwatchTotal != null || card.stopwatchStartedAt != null)
                         IntrinsicWidth(
                           child: StopwatchDisplay(
+                            cardId: card.id,
                             initialTotalSeconds: card.stopwatchTotal!,
                             startedAt: card.stopwatchStartedAt,
                           ),

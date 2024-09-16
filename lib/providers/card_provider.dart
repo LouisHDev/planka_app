@@ -68,6 +68,79 @@ class CardProvider with ChangeNotifier {
     }
   }
 
+  Future<void> updateStopwatch({
+    required BuildContext context,
+    required String cardId,
+    required int stopwatchTotal,
+    String? stopwatchStartedAt,
+  }) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+
+    try {
+      // Construct the request body
+      final body = {
+        'stopwatch': {
+          'total': stopwatchTotal,
+          'startedAt': stopwatchStartedAt ?? null,
+        },
+      };
+
+      // Make the PATCH request
+      final response = await http.patch(
+        url,
+        body: json.encode(body),
+        headers: {'Authorization': 'Bearer ${authProvider.token}', 'Content-Type': 'application/json'},
+      );
+
+      debugPrint(response.toString());
+
+      if (response.statusCode == 200) {
+        notifyListeners();
+      } else {
+        debugPrint('Failed to update card: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+        throw Exception('Failed to update card: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to update card');
+    }
+  }
+
+  Future<void> deleteStopwatch({
+    required BuildContext context,
+    required String cardId,
+  }) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+
+    try {
+      // Construct the request body
+      final body = {
+        'stopwatch': null
+      };
+
+      // Make the PATCH request
+      final response = await http.patch(
+        url,
+        body: json.encode(body),
+        headers: {'Authorization': 'Bearer ${authProvider.token}', 'Content-Type': 'application/json'},
+      );
+
+      debugPrint(response.toString());
+
+      if (response.statusCode == 200) {
+        notifyListeners();
+      } else {
+        debugPrint('Failed to update card: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+        throw Exception('Failed to update card: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to update card');
+    }
+  }
+
   Future<void> updateCardDueDate({required String cardId, required String newDueDate}) async {
     final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
 

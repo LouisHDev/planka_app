@@ -80,5 +80,12 @@
     "0": "Nome dell'etichetta",
     "2": "Il nome esiste già."
   },
-  "click_me_to_add_description": "Clicca qui per aggiungere una descrizione."
+  "click_me_to_add_description": "Clicca qui per aggiungere una descrizione.",
+  "stopwatch_controls": {
+    "title": "Controlla Cronometro",
+    "set_time": "Imposta Ora",
+    "hours": "Ore",
+    "minutes": "Minuti",
+    "seconds": "Secondi"
+  }
 }

@@ -80,5 +80,12 @@
     "0": "Nom de l'étiquette",
     "2": "Le nom existe déjà."
   },
-  "click_me_to_add_description": "Cliquez ici pour ajouter une description."
+  "click_me_to_add_description": "Cliquez ici pour ajouter une description.",
+  "stopwatch_controls": {
+    "title": "Contrôler le Chronomètre",
+    "set_time": "Définir le Temps",
+    "hours": "Heures",
+    "minutes": "Minutes",
+    "seconds": "Secondes"
+  }
 }

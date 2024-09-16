@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:markdown_editor_plus/widgets/markdown_auto_preview.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:planka_app/models/planka_card.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:planka_app/models/planka_card_actions.dart';
@@ -17,9 +16,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
-import '../models/card_models/planka_attachment.dart';
 import '../models/card_models/planka_label.dart';
 import '../models/planka_user.dart';
 import '../providers/attachment_provider.dart';
@@ -626,6 +623,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                         buildDueDateWidget(widget.card.dueDate!, widget.card.id),
                       if(widget.card.stopwatchTotal != null || widget.card.stopwatchStartedAt != null)
                         StopwatchDisplay(
+                          cardId: widget.card.id,
                           initialTotalSeconds: widget.card.stopwatchTotal!,
                           startedAt: widget.card.stopwatchStartedAt,
                         ),
