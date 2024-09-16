@@ -584,7 +584,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
           //   },
           // ),
           Bubble(
-            title: 'timer_create'.tr(),
+            title: 'stopwatch_controls.timer_create'.tr(),
             iconColor: Colors.white,
             bubbleColor: Colors.indigo,
             icon: Icons.timer, // Changed the icon to represent starting the timer
