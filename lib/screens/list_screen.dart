@@ -55,14 +55,6 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
           ],
         )
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Provider.of<ListProvider>(context, listen: false).fetchLists(boardId: widget.currentBoard!.id, context: context);
-      //   },
-      //   foregroundColor: Colors.indigo,
-      //   backgroundColor: Colors.indigo,
-      //   child: const Icon(Icons.refresh, size: 35, color: Colors.white,),
-      // ),
 
       body: Container(
         decoration: backgroundImageUrl != null
