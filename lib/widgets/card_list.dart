@@ -1086,8 +1086,20 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
         // Convert XFile to File
         if(result != null){
           File fileToUpload = File(result.path);
-          await context1.read<AttachmentProvider>()
-              .createAttachment(context: context1, cardId: widget.card.id, file: fileToUpload);
+
+          context1
+              .read<AttachmentProvider>()
+              .createAttachment(context: context1, cardId: widget.card.id, file: fileToUpload)
+              .then((_) {
+            // After successfully creating the attachment, update the card cover attachment ID to null
+            context1.read<CardProvider>().updateCardCoverAttachId(
+              context: context1,
+              cardId: widget.card.id,
+              newCardCoverAttachId: null,
+            );
+
+            Navigator.of(context1).pop();
+          });
         }
 
       });
@@ -1106,10 +1118,26 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
       await _picker.pickImage(source: ImageSource.camera).then((pickedFile) async{
 
         // Convert XFile to File
-        if(pickedFile != null){
+        if (pickedFile != null) {
           File fileToUpload = File(pickedFile.path);
-          await context1.read<AttachmentProvider>()
-              .createAttachment(context: context1, cardId: widget.card.id, file: fileToUpload);
+
+          context1
+              .read<AttachmentProvider>()
+              .createAttachment(context: context1, cardId: widget.card.id, file: fileToUpload)
+              .then((_) {
+            // After successfully creating the attachment, update the card cover attachment ID to null
+            context1.read<CardProvider>().updateCardCoverAttachId(
+              context: context1,
+              cardId: widget.card.id,
+              newCardCoverAttachId: null,
+            );
+
+            Navigator.of(context1).pop();
+          })
+              .catchError((error) {
+            // Handle any errors that occur during the chain of operations
+            debugPrint('Error: $error');
+          });
         }
 
       });
@@ -1130,8 +1158,20 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
         // Convert XFile to File
         if(result != null && result.files.single.path != null){
           File fileToUpload = File(result.files.single.path!);
-          await context1.read<AttachmentProvider>()
-              .createAttachment(context: context1, cardId: widget.card.id, file: fileToUpload);
+
+          context1
+              .read<AttachmentProvider>()
+              .createAttachment(context: context1, cardId: widget.card.id, file: fileToUpload)
+              .then((_) {
+            // After successfully creating the attachment, update the card cover attachment ID to null
+            context1.read<CardProvider>().updateCardCoverAttachId(
+              context: context1,
+              cardId: widget.card.id,
+              newCardCoverAttachId: null,
+            );
+
+            Navigator.of(context1).pop();
+          });
         }
 
       });

@@ -267,6 +267,31 @@ class CardProvider with ChangeNotifier {
     }
   }
 
+  Future<void> updateCardCoverAttachId({required BuildContext context, required String cardId, required String? newCardCoverAttachId}) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+
+    try {
+      final response = await http.patch(
+        url,
+        body: json.encode({'coverAttachmentId': newCardCoverAttachId}),
+        headers: {'Authorization': 'Bearer ${authProvider.token}'},
+      );
+
+      debugPrint("ID::" + newCardCoverAttachId.toString());
+
+      if (response.statusCode == 200) {
+        notifyListeners();
+      } else {
+        debugPrint('Failed to update card name: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+        throw Exception('Failed to card name: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to card name');
+    }
+  }
+
   Future<void> addTask({required BuildContext context, required String cardId, required String taskText, required String newPos}) async {
     final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/tasks/?position=$newPos');
 

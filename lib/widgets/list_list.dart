@@ -872,12 +872,19 @@ class _ListListState extends State<ListList> {
         return;
       }
 
-      // Step 3: Attach the file to the created card
-      await context.read<AttachmentProvider>().createAttachment(
-        context: context,
-        cardId: cardId,
-        file: fileToUpload,
-      );
+      context
+          .read<AttachmentProvider>()
+          .createAttachment(context: context, cardId: cardId, file: fileToUpload)
+          .then((_) {
+        // After successfully creating the attachment, update the card cover attachment ID to null
+        context.read<CardProvider>().updateCardCoverAttachId(
+          context: context,
+          cardId: cardId,
+          newCardCoverAttachId: null,
+        );
+
+        Navigator.of(context).pop();
+      });
 
       showTopSnackBar(
         Overlay.of(context),
