@@ -46,7 +46,9 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
             Text('${'lists_for'.tr()} ${widget.currentBoard?.name}'),
             IconButton(
                 onPressed: () {
-                  Provider.of<ListProvider>(context, listen: false).fetchLists(boardId: widget.currentBoard!.id, context: context);
+                  setState(() {
+                    Provider.of<ListProvider>(context, listen: false).fetchLists(boardId: widget.currentBoard!.id, context: context);
+                  });
                 },
                 icon: const Icon(Icons.refresh, color: Colors.indigo,)
             )
