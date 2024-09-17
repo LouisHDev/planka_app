@@ -29,8 +29,9 @@ import '../packages/kanban_board_package/models/inputs.dart';
 class ListList extends StatefulWidget {
   final List<PlankaList> lists;
   final PlankaBoard currentBoard;
+  final VoidCallback? onRefresh;
 
-  const ListList(this.lists, this.currentBoard, {super.key});
+  const ListList(this.lists, this.currentBoard, {super.key, this.onRefresh});
 
   @override
   _ListListState createState() => _ListListState();
@@ -96,14 +97,24 @@ class _ListListState extends State<ListList> {
                   boardId: widget.currentBoard.id,
                   context: context,
                   newPos: (widget.lists.last.position + 1000).toString(),
-                );
+                ).then((_) {
+                  // Call the onRefresh callback if it exists
+                  if (widget.onRefresh != null) {
+                    widget.onRefresh!();
+                  }
+                });
               } else {
                 Provider.of<ListProvider>(context, listen: false).createList(
                   newListName: newName,
                   boardId: widget.currentBoard.id,
                   context: context,
                   newPos: "1000",
-                );
+                ).then((_) {
+                  // Call the onRefresh callback if it exists
+                  if (widget.onRefresh != null) {
+                    widget.onRefresh!();
+                  }
+                });
               }
             } else {
               showTopSnackBar(
@@ -261,7 +272,12 @@ class _ListListState extends State<ListList> {
                             newPos: list.cards.isNotEmpty
                                 ? (list.cards.last.position + 1000).toString()
                                 : "1000",
-                          );
+                          ).then((_) {
+                            // Call the onRefresh callback if it exists
+                            if (widget.onRefresh != null) {
+                              widget.onRefresh!();
+                            }
+                          });
 
                           _listNewCardControllers[list.id]!.clear();
                         },
@@ -758,10 +774,12 @@ class _ListListState extends State<ListList> {
     final listProvider = Provider.of<ListProvider>(context, listen: false);
 
     // Update the list name on the server
-    await listProvider.updateListName(listProvider.lists.firstWhere((list) => list.id == listId), newName);
-
-    // Fetch updated lists from the server
-    await listProvider.fetchLists(boardId: widget.currentBoard.id, context: context);
+    await listProvider.updateListName(listProvider.lists.firstWhere((list) => list.id == listId), newName).then((_) {
+      // Call the onRefresh callback if it exists
+      if (widget.onRefresh != null) {
+        widget.onRefresh!();
+      }
+    });
   }
 
   void _showDeleteConfirmationDialog(BuildContext context, PlankaList list) {
@@ -780,7 +798,12 @@ class _ListListState extends State<ListList> {
           TextButton(
             onPressed: () {
               Provider.of<ListProvider>(context, listen: false)
-                  .deleteList(list.id);
+                  .deleteList(list.id).then((_) {
+                // Call the onRefresh callback if it exists
+                if (widget.onRefresh != null) {
+                  widget.onRefresh!();
+                }
+              });
               Navigator.of(ctx).pop();
             },
             child: Text('delete'.tr()),
@@ -884,6 +907,11 @@ class _ListListState extends State<ListList> {
         );
 
         Navigator.of(context).pop();
+      }).then((_) {
+        // Call the onRefresh callback if it exists
+        if (widget.onRefresh != null) {
+          widget.onRefresh!();
+        }
       });
 
       showTopSnackBar(

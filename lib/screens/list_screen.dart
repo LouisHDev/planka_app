@@ -34,6 +34,15 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
     super.dispose();
   }
 
+  // Callback method to refresh the lists
+  void _refreshLists() {
+    setState(() {
+      Provider.of<ListProvider>(context, listen: false)
+          .fetchLists(boardId: widget.currentBoard!.id, context: context);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final backgroundImageUrl = widget.currentProject?.backgroundImage?['url'];
@@ -45,11 +54,7 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
           children: [
             Text('${'lists_for'.tr()} ${widget.currentBoard?.name}'),
             IconButton(
-                onPressed: () {
-                  setState(() {
-                    Provider.of<ListProvider>(context, listen: false).fetchLists(boardId: widget.currentBoard!.id, context: context);
-                  });
-                },
+                onPressed: _refreshLists,
                 icon: const Icon(Icons.refresh, color: Colors.indigo,)
             )
           ],
@@ -70,7 +75,7 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
           builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting
               ? const Center(child: CircularProgressIndicator())
               : Consumer<ListProvider>(
-            builder: (ctx, listProvider, _) => ListList(listProvider.lists, widget.currentBoard!),
+            builder: (ctx, listProvider, _) => ListList(listProvider.lists, widget.currentBoard!, onRefresh: _refreshLists,),
           ),
         ),
       ),
