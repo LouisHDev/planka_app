@@ -8,6 +8,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../providers/card_actions_provider.dart';
+import '../../providers/list_provider.dart';
 
 class FCardScreen extends StatefulWidget {
   const FCardScreen({super.key});
@@ -74,6 +75,16 @@ class _FCardScreenState extends State<FCardScreen> with SingleTickerProviderStat
     }
   }
 
+  // Callback method to refresh the lists
+  void _refreshCard() {
+    final PlankaCard card = ModalRoute.of(context)!.settings.arguments as PlankaCard;
+
+    setState(() {
+      Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: card.id, context: context);
+      Provider.of<CardActionsProvider>(context, listen: false).fetchCardComment(card.id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final PlankaCard card = ModalRoute.of(context)!.settings.arguments as PlankaCard;
@@ -126,6 +137,7 @@ class _FCardScreenState extends State<FCardScreen> with SingleTickerProviderStat
                     fetchedCard,
                     previewCard: card,
                     cardActions: cardActions,
+                    onRefresh: _refreshCard,
                   );
                 }
               },

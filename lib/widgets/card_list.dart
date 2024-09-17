@@ -27,8 +27,9 @@ class CardList extends StatefulWidget {
   final PlankaFullCard card;
   final PlankaCard previewCard;
   final List<PlankaCardAction> cardActions;
+  final VoidCallback? onRefresh;
 
-  const CardList(this.card,{super.key, required this.previewCard, required this.cardActions, });
+  const CardList(this.card,{super.key, required this.previewCard, required this.cardActions, this.onRefresh, });
 
   @override
   _CardListState createState() => _CardListState();
@@ -223,7 +224,12 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
           ),
           TextButton(
             onPressed: () async {
-              await Provider.of<CardActionsProvider>(ctx, listen: false).deleteComment(commentId);
+              await Provider.of<CardActionsProvider>(ctx, listen: false).deleteComment(commentId).then((_) {
+                // Call the onRefresh callback if it exists
+                if (widget.onRefresh != null) {
+                  widget.onRefresh!();
+                }
+              });
               Navigator.of(ctx).pop();
             },
             child: Text('delete'.tr()),
@@ -987,7 +993,12 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                   FocusScope.of(context).unfocus(); // This will defocus the TextField when tapping outside
                 },
                 onSubmitted: (text) async {
-                  await Provider.of<CardActionsProvider>(context, listen: false).createComment(widget.card.id, text);
+                  await Provider.of<CardActionsProvider>(context, listen: false).createComment(widget.card.id, text).then((_) {
+                    // Call the onRefresh callback if it exists
+                    if (widget.onRefresh != null) {
+                      widget.onRefresh!();
+                    }
+                  });
                   setState(() {
                     _commentController.clear();
                   });
