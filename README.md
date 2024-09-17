@@ -28,7 +28,7 @@ Planka App is an open-source mobile application developed using [Flutter](https:
 ### Steps to Install
 1.Clone this repository:
 
-   ```bash
+```bash
    git clone https://github.com/LouisHDev/planka_app.git
    ```
 
