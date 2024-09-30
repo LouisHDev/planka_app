@@ -990,7 +990,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                   labelText: 'write_comment'.tr(),
                 ),
                 onTapOutside: (newVal) {
-                  FocusScope.of(context).unfocus(); // This will defocus the TextField when tapping outside
+                  FocusScope.of(context).unfocus(); // This will de-focus the TextField when tapping outside
                 },
                 onSubmitted: (text) async {
                   await Provider.of<CardActionsProvider>(context, listen: false).createComment(widget.card.id, text).then((_) {
