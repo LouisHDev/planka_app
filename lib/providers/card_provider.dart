@@ -81,7 +81,7 @@ class CardProvider with ChangeNotifier {
       final body = {
         'stopwatch': {
           'total': stopwatchTotal,
-          'startedAt': stopwatchStartedAt ?? null,
+          'startedAt': stopwatchStartedAt,
         },
       };
 
@@ -91,8 +91,6 @@ class CardProvider with ChangeNotifier {
         body: json.encode(body),
         headers: {'Authorization': 'Bearer ${authProvider.token}', 'Content-Type': 'application/json'},
       );
-
-      debugPrint(response.toString());
 
       if (response.statusCode == 200) {
         notifyListeners();

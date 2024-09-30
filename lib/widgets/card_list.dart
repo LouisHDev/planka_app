@@ -607,7 +607,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                   context: context,
                   cardId: widget.card.id,
                   stopwatchTotal: widget.card.stopwatchTotal!,
-                  stopwatchStartedAt: widget.card.stopwatchStartedAt.toString(),
+                  stopwatchStartedAt: widget.card.stopwatchStartedAt != null ? widget.card.stopwatchStartedAt.toString() : null, // Set only if _startedAt is not null
                 );
 
                 // Optionally, refresh the UI
