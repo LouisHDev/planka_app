@@ -618,7 +618,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                 showTopSnackBar(
                   Overlay.of(context),
                   CustomSnackBar.info(
-                    message: 'timer_already_present'.tr(),
+                    message: "stopwatch_controls.timer_already_present".tr(),
                   ),
                 );
 
