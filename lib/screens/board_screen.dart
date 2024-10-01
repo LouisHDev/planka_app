@@ -16,6 +16,7 @@ class BoardScreen extends StatefulWidget {
 }
 
 class _BoardScreenState extends State<BoardScreen> {
+  bool _usersFetched = false; // Track if users have been fetched
 
   // Callback method to refresh the lists
   void _refreshBoards() {
@@ -58,7 +59,10 @@ class _BoardScreenState extends State<BoardScreen> {
               ? const Center(child: CircularProgressIndicator())
               : Consumer<BoardProvider>(
             builder: (ctx, boardProvider, _) {
-              _fetchUsersForBoards(context);
+              // Fetch users once after the boards are fetched
+              if (!_usersFetched) {
+                _fetchUsersForBoards(context);
+              }
 
               return BoardList(
                 boardProvider.boards,
@@ -77,8 +81,14 @@ class _BoardScreenState extends State<BoardScreen> {
   void _fetchUsersForBoards(BuildContext context) {
     final boardProvider = Provider.of<BoardProvider>(context, listen: false);
 
-    for (var board in boardProvider.boards) {
-      boardProvider.fetchBoardUsers(boardId: board.id, context: context);
+    // Fetch users only if they haven't been fetched yet
+    if (!_usersFetched) {
+      for (var board in boardProvider.boards) {
+        boardProvider.fetchBoardUsers(boardId: board.id, context: context);
+      }
+      // setState(() {
+        _usersFetched = true; // Ensure users are fetched only once
+      // });
     }
   }
 }
