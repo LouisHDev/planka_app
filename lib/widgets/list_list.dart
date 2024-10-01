@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:planka_app/models/planka_card.dart';
+import 'package:planka_app/screens/ui/fullscreen_card.dart';
 import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -337,16 +338,37 @@ class _ListListState extends State<ListList> {
                   child: buildCoverAttachmentImage(context, card.coverAttachmentId!, card.cardAttachment),
                 ),
               ),
+              // onTap: () {
+              //   Navigator.of(context).pushNamed('/card', arguments: card);
+              // },
               onTap: () {
-                Navigator.of(context).pushNamed('/card', arguments: card);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => FCardScreen(
+                        currentBoard: widget.currentBoard,
+                        card: card,
+                      )
+                  ),
+                );
               },
             ),
 
           ListTile(
+              // onTap: () {
+              //   Navigator.of(context).pushNamed(
+              //     '/card',
+              //     arguments: card,
+              //   );
+              // },
+
               onTap: () {
-                Navigator.of(context).pushNamed(
-                  '/card',
-                  arguments: card,
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FCardScreen(
+                      currentBoard: widget.currentBoard,
+                      card: card,
+                    )
+                  ),
                 );
               },
 

@@ -3,10 +3,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:markdown_editor_plus/widgets/markdown_auto_preview.dart';
+import 'package:planka_app/models/planka_board.dart';
 import 'package:planka_app/models/planka_card.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:planka_app/models/planka_card_actions.dart';
 import 'package:planka_app/models/planka_fCard.dart';
+import 'package:planka_app/providers/board_provider.dart';
 import 'package:planka_app/providers/card_actions_provider.dart';
 import 'package:planka_app/screens/ui/fullscreen_attachment.dart';
 import 'package:planka_app/widgets/parts/stopwatch_display.dart';
@@ -17,19 +19,22 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../models/card_models/planka_card_membership.dart';
 import '../models/card_models/planka_label.dart';
 import '../models/planka_user.dart';
 import '../providers/attachment_provider.dart';
 import '../providers/card_provider.dart';
 import '../providers/list_provider.dart';
+import '../providers/user_provider.dart';
 
 class CardList extends StatefulWidget {
   final PlankaFullCard card;
   final PlankaCard previewCard;
+  final PlankaBoard currentBoard;
   final List<PlankaCardAction> cardActions;
   final VoidCallback? onRefresh;
 
-  const CardList(this.card,{super.key, required this.previewCard, required this.cardActions, this.onRefresh, });
+  const CardList(this.card,{super.key, required this.previewCard, required this.cardActions, this.onRefresh, required this.currentBoard, });
 
   @override
   _CardListState createState() => _CardListState();
@@ -402,6 +407,100 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
     );
   }
 
+  void _showCardMembersBottomSheet(
+      BuildContext context,
+      List<PlankaUser> allMembers, // All available members (PlankaUser)
+      List<PlankaCardMembership>? cardMembers, // Card members, can be null
+      String cardId, // Card ID
+      ) {
+    // Create cardMemberIds from cardMembers, or use an empty set if cardMembers is null
+    final Set<String> cardMemberIds = cardMembers != null
+        ? cardMembers.map((member) => member.userId).toSet()
+        : <String>{};
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,  // This allows the bottom sheet to move up with the keyboard
+      builder: (BuildContext context) {
+        return StatefulBuilder(  // Use StatefulBuilder to update the UI inside the bottom sheet
+          builder: (context, setState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,  // Adjust the bottom padding based on the keyboard height
+              ),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,  // Minimize the size to fit content and keyboard
+                    children: [
+                      ...allMembers.map((member) {
+                        // Check if the member is assigned (if cardMembers is null, no one is assigned)
+                        final bool isAssigned = cardMemberIds.contains(member.id);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isAssigned) {
+                              // Remove member from the card
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                setState(() {
+                                  cardMemberIds.remove(member.id);
+
+                                  Provider.of<CardProvider>(context, listen: false).removeCardMember(context: context, cardId: cardId, userId: member.id);
+                                });
+                              });
+
+                              Navigator.pop(context);
+                            } else {
+                              // Add member to the card
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                setState(() {
+                                  cardMemberIds.add(member.id);
+
+                                  Provider.of<CardProvider>(context, listen: false).addCardMember(context: context, cardId: cardId, userId: member.id);
+                                });
+                              });
+
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 35,
+                            margin: const EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                            decoration: BoxDecoration(
+                              color: Colors.indigo,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                isAssigned
+                                    ? const Icon(Icons.check_box_rounded, color: Colors.white)
+                                    : const Icon(Icons.check_box_outline_blank_rounded, color: Colors.white),
+                                Text(
+                                  member.name,
+                                  style: const TextStyle(color: Colors.white, fontSize: 16.0),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      })
+
+                      // Optionally, you can add an "Add Member" section if you want to allow adding new members.
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   void _createLabel(String cardId, String labelName, BuildContext context, String boardId, Function(PlankaLabel) onLabelCreated) {
     // Simulate label creation (replace this with your actual API call or logic)
     final newLabel = PlankaLabel(id: DateTime.now().toString(), name: labelName, position: 1, color: '', boardId: '');
@@ -568,6 +667,8 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    final boardProvider = Provider.of<BoardProvider>(context, listen: false);
+
     return Scaffold(
       floatingActionButton: FloatingActionBubble(
         items: <Bubble>[
@@ -589,6 +690,29 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
           //     );
           //   },
           // ),
+          Bubble(
+            title: 'members'.tr(),
+            iconColor: Colors.white,
+            bubbleColor: Colors.indigo,
+            icon: Icons.group_rounded,
+            titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () async {
+              _animationController.reverse();
+
+              // Call fetchUsers to ensure users are fetched before accessing the list
+              await boardProvider.fetchBoardUsers(boardId: widget.currentBoard.id, context: context);  // Ensure this completes before proceeding
+
+              // Now access the users list directly from the provider
+              List<PlankaUser> users = boardProvider.boardUsers;  // Use the global users list
+
+              // Assuming `cardMembers` and `cardId` are available in this context.
+              List<PlankaCardMembership>? cardMembers = widget.card.cardMemberships; // Get the card members from the card object
+              String cardId = widget.card.id; // Get the current card's ID
+
+              // Now call the bottom sheet with the required arguments
+              _showCardMembersBottomSheet(context, users, cardMembers, cardId);
+            },
+          ),
           Bubble(
             title: 'stopwatch_controls.timer_create'.tr(),
             iconColor: Colors.white,

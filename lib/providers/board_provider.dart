@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:planka_app/models/planka_board.dart';
+import 'package:planka_app/models/planka_user.dart';
 import 'dart:convert';
 import 'auth_provider.dart';
 
 class BoardProvider with ChangeNotifier {
   final List<PlankaBoard> _boards = [];
+  final List<PlankaUser> _boardUsers = [];
   final AuthProvider authProvider;
 
   BoardProvider(this.authProvider);
 
   List<PlankaBoard> get boards => _boards;
+  List<PlankaUser> get boardUsers => _boardUsers;
 
   Future<void> fetchBoards({required String projectId, required BuildContext context}) async {
     try {
@@ -43,6 +46,40 @@ class BoardProvider with ChangeNotifier {
     } catch (error) {
       debugPrint('Error fetching boards: $error');
       throw Exception('Failed to load boards');
+    }
+  }
+
+  Future<void> fetchBoardUsers({required String boardId, required BuildContext context}) async {
+    try {
+      final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId');
+
+      final response = await http.get(
+          url,
+          headers: {'Authorization': 'Bearer ${authProvider.token}'}
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        final includedData = responseData['included'];
+
+        _boardUsers.clear();
+
+        if (includedData != null && includedData.containsKey('users')) {
+          for (var userJson in includedData['users']) {
+            final PlankaUser user = PlankaUser.fromJson(userJson);
+            _boardUsers.add(user);
+          }
+        }
+
+        notifyListeners();
+      } else {
+        debugPrint('Failed to load board users: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+        throw Exception('Failed to load board users: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error fetching board users: $error');
+      throw Exception('Failed to load board users');
     }
   }
 

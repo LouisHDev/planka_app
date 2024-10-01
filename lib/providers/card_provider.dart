@@ -68,12 +68,7 @@ class CardProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateStopwatch({
-    required BuildContext context,
-    required String cardId,
-    required int stopwatchTotal,
-    String? stopwatchStartedAt,
-  }) async {
+  Future<void> updateStopwatch({required BuildContext context, required String cardId, required int stopwatchTotal, String? stopwatchStartedAt,}) async {
     final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
 
     try {
@@ -105,10 +100,7 @@ class CardProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteStopwatch({
-    required BuildContext context,
-    required String cardId,
-  }) async {
+  Future<void> deleteStopwatch({required BuildContext context, required String cardId,}) async {
     final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
 
     try {
@@ -162,11 +154,7 @@ class CardProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addCardLabel({
-    required BuildContext context,
-    required String cardId,
-    required String labelId,
-  }) async {
+  Future<void> addCardLabel({required BuildContext context, required String cardId, required String labelId}) async {
     final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/labels');
 
     try {
@@ -195,11 +183,65 @@ class CardProvider with ChangeNotifier {
     }
   }
 
-  Future<void> removeCardLabel({
-    required BuildContext context,
-    required String cardId,
-    required String labelId,
-  }) async {
+  Future<void> addCardMember({required BuildContext context, required String cardId, required String userId}) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/memberships');
+
+    try {
+      // Fetch the current card data
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'userId': userId,
+          'cardId': cardId
+        }),
+        headers: {
+          'Authorization': 'Bearer ${authProvider.token}',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        notifyListeners();
+      } else {
+        debugPrint('Failed to add card user: ${response.statusCode}');
+        throw Exception('Failed to add card user: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to add card user');
+    }
+  }
+
+  Future<void> removeCardMember({required BuildContext context, required String cardId, required String userId}) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/memberships');
+
+    try {
+      // Fetch the current card data
+      final response = await http.delete(
+        url,
+        body: json.encode({
+          'userId': userId,
+          'cardId': cardId
+        }),
+        headers: {
+          'Authorization': 'Bearer ${authProvider.token}',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        notifyListeners();
+      } else {
+        debugPrint('Failed to delete card user: ${response.statusCode}');
+        throw Exception('Failed to delete card user: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to delete card user');
+    }
+  }
+
+  Future<void> removeCardLabel({required BuildContext context, required String cardId, required String labelId,}) async {
     final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/labels/$labelId');
 
     try {

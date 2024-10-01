@@ -7,11 +7,15 @@ import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../models/planka_board.dart';
 import '../../providers/card_actions_provider.dart';
-import '../../providers/list_provider.dart';
 
 class FCardScreen extends StatefulWidget {
-  const FCardScreen({super.key});
+  PlankaBoard? currentBoard;
+  PlankaCard? card;
+
+  FCardScreen({super.key, this.currentBoard, this.card});
+
 
   @override
   _FCardScreenState createState() => _FCardScreenState();
@@ -77,18 +81,14 @@ class _FCardScreenState extends State<FCardScreen> with SingleTickerProviderStat
 
   // Callback method to refresh the lists
   void _refreshCard() {
-    final PlankaCard card = ModalRoute.of(context)!.settings.arguments as PlankaCard;
-
     setState(() {
-      Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: card.id, context: context);
-      Provider.of<CardActionsProvider>(context, listen: false).fetchCardComment(card.id);
+      Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: widget.card!.id, context: context);
+      Provider.of<CardActionsProvider>(context, listen: false).fetchCardComment(widget.card!.id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final PlankaCard card = ModalRoute.of(context)!.settings.arguments as PlankaCard;
-
     return Scaffold(
       appBar: AppBar(
         title: _isEditingTitle
@@ -99,25 +99,25 @@ class _FCardScreenState extends State<FCardScreen> with SingleTickerProviderStat
           child: TextField(
             controller: _titleController,
             autofocus: true,
-            onSubmitted: (_) => _saveTitle(card, context),
+            onSubmitted: (_) => _saveTitle(widget.card!, context),
           ),
         )
             : GestureDetector(
-          onTap: () => _toggleEditTitle(card.name),
+          onTap: () => _toggleEditTitle(widget.card!.name),
           child: Container(
             color: Colors.transparent,
             height: kToolbarHeight,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(card.name),
+            child: Text(widget.card!.name),
           ),
         ),
       ),
 
       body: FutureBuilder(
         future: Future.wait([
-          Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: card.id, context: context),
-          Provider.of<CardActionsProvider>(context, listen: false).fetchCardComment(card.id),
+          Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: widget.card!.id, context: context),
+          Provider.of<CardActionsProvider>(context, listen: false).fetchCardComment(widget.card!.id),
         ]),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -135,9 +135,10 @@ class _FCardScreenState extends State<FCardScreen> with SingleTickerProviderStat
                 } else {
                   return CardList(
                     fetchedCard,
-                    previewCard: card,
+                    previewCard: widget.card!,
                     cardActions: cardActions,
                     onRefresh: _refreshCard,
+                    currentBoard: widget.currentBoard!,
                   );
                 }
               },

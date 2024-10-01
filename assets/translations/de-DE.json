@@ -89,5 +89,6 @@
     "seconds": "Sekunden",
     "timer_already_present": "Es existiert bereits ein Timer für diese Karte.",
     "timer_create": "Timer erstellen"
-  }
+  },
+  "members": "Mitglieder"
 }

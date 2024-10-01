@@ -89,5 +89,6 @@
     "seconds": "Saniye",
     "timer_already_present": "Bu kart için zaten bir zamanlayıcı var.",
     "timer_create": "Zamanlayıcı oluştur"
-  }
+  },
+  "members": "Üyeler"
 }

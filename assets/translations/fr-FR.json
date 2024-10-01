@@ -89,5 +89,6 @@
     "seconds": "Secondes",
     "timer_already_present": "Un minuteur existe déjà pour cette carte.",
     "timer_create": "Créer un minuteur"
-  }
+  },
+  "members": "Membres"
 }

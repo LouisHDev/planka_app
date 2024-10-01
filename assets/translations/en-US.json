@@ -89,5 +89,6 @@
     "seconds": "Seconds",
     "timer_already_present": "A timer already exists for this card.",
     "timer_create": "Create timer"
-  }
+  },
+  "members": "Members"
 }

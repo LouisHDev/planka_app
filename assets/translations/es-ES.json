@@ -89,5 +89,6 @@
     "seconds": "Segundos",
     "timer_already_present": "Ya existe un temporizador para esta tarjeta.",
     "timer_create": "Crear temporizador"
-  }
+  },
+  "members": "Miembros"
 }

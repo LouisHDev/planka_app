@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
           '/projects': (ctx) => const ProjectScreen(),
           '/boards': (ctx) => const BoardScreen(),
           '/lists': (ctx) => ListScreen(),
-          '/card': (ctx) => const FCardScreen(),
+          '/card': (ctx) =>  FCardScreen(),
           '/settings': (ctx) => const SettingsScreen()
         },
       ),
