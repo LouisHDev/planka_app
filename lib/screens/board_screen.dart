@@ -6,9 +6,14 @@ import 'package:provider/provider.dart';
 
 import '../models/planka_project.dart';
 
-class BoardScreen extends StatelessWidget {
+class BoardScreen extends StatefulWidget {
   const BoardScreen({super.key});
 
+  @override
+  _BoardScreenState createState() => _BoardScreenState();
+}
+
+class _BoardScreenState extends State<BoardScreen> {
   @override
   Widget build(BuildContext context) {
     final PlankaProject project = ModalRoute.of(context)!.settings.arguments as PlankaProject;
@@ -20,7 +25,9 @@ class BoardScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Provider.of<BoardProvider>(context, listen: false).fetchBoards(projectId: project.id, context: context);
+          Provider.of<BoardProvider>(context, listen: false).fetchBoards(projectId: project.id, context: context).then((_) {
+            _fetchUsersForBoards(context);
+          });
         },
         foregroundColor: Colors.indigo,
         backgroundColor: Colors.indigo,
@@ -36,14 +43,32 @@ class BoardScreen extends StatelessWidget {
         )
             : null,
         child: FutureBuilder(
-          future: Provider.of<BoardProvider>(context, listen: false).fetchBoards(projectId: project.id, context: context),
+          future: Provider.of<BoardProvider>(context, listen: false)
+              .fetchBoards(projectId: project.id, context: context),
           builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting
               ? const Center(child: CircularProgressIndicator())
               : Consumer<BoardProvider>(
-            builder: (ctx, boardProvider, _) => BoardList(boardProvider.boards, currentProject: project,),
+            builder: (ctx, boardProvider, _) {
+              _fetchUsersForBoards(context);
+
+              return BoardList(
+                boardProvider.boards,
+                currentProject: project,
+                usersPerBoard: boardProvider.boardUsersMap, // Pass the users to the BoardList
+              );
+            },
           ),
         ),
       ),
     );
+  }
+
+  // Fetch users for each board only once
+  void _fetchUsersForBoards(BuildContext context) {
+    final boardProvider = Provider.of<BoardProvider>(context, listen: false);
+
+    for (var board in boardProvider.boards) {
+      boardProvider.fetchBoardUsers(boardId: board.id, context: context);
+    }
   }
 }

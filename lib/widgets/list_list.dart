@@ -338,9 +338,6 @@ class _ListListState extends State<ListList> {
                   child: buildCoverAttachmentImage(context, card.coverAttachmentId!, card.cardAttachment),
                 ),
               ),
-              // onTap: () {
-              //   Navigator.of(context).pushNamed('/card', arguments: card);
-              // },
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -354,13 +351,6 @@ class _ListListState extends State<ListList> {
             ),
 
           ListTile(
-              // onTap: () {
-              //   Navigator.of(context).pushNamed(
-              //     '/card',
-              //     arguments: card,
-              //   );
-              // },
-
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(

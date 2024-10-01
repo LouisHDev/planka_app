@@ -1,7 +1,6 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:markdown_editor_plus/widgets/markdown_auto_preview.dart';
 import 'package:planka_app/models/planka_board.dart';
 import 'package:planka_app/models/planka_card.dart';
@@ -25,7 +24,6 @@ import '../models/planka_user.dart';
 import '../providers/attachment_provider.dart';
 import '../providers/card_provider.dart';
 import '../providers/list_provider.dart';
-import '../providers/user_provider.dart';
 
 class CardList extends StatefulWidget {
   final PlankaFullCard card;
@@ -446,7 +444,12 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                                 setState(() {
                                   cardMemberIds.remove(member.id);
 
-                                  Provider.of<CardProvider>(context, listen: false).removeCardMember(context: context, cardId: cardId, userId: member.id);
+                                  Provider.of<CardProvider>(context, listen: false).removeCardMember(context: context, cardId: cardId, userId: member.id).then((_) {
+                                    // Call the onRefresh callback if it exists
+                                    if (widget.onRefresh != null) {
+                                      widget.onRefresh!();
+                                    }
+                                  });
                                 });
                               });
 
@@ -457,7 +460,12 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                                 setState(() {
                                   cardMemberIds.add(member.id);
 
-                                  Provider.of<CardProvider>(context, listen: false).addCardMember(context: context, cardId: cardId, userId: member.id);
+                                  Provider.of<CardProvider>(context, listen: false).addCardMember(context: context, cardId: cardId, userId: member.id).then((_) {
+                                    // Call the onRefresh callback if it exists
+                                    if (widget.onRefresh != null) {
+                                      widget.onRefresh!();
+                                    }
+                                  });
                                 });
                               });
 
@@ -703,7 +711,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
               await boardProvider.fetchBoardUsers(boardId: widget.currentBoard.id, context: context);  // Ensure this completes before proceeding
 
               // Now access the users list directly from the provider
-              List<PlankaUser> users = boardProvider.boardUsers;  // Use the global users list
+              List<PlankaUser> users = boardProvider.getBoardUsers(widget.currentBoard.id);  // Use the global users list
 
               // Assuming `cardMembers` and `cardId` are available in this context.
               List<PlankaCardMembership>? cardMembers = widget.card.cardMemberships; // Get the card members from the card object

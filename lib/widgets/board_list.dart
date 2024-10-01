@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:planka_app/models/planka_board.dart';
 import 'package:planka_app/models/planka_project.dart';
+import 'package:planka_app/models/planka_user.dart';
 import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -11,9 +12,10 @@ import '../screens/list_screen.dart';
 
 class BoardList extends StatefulWidget {
   final List<PlankaBoard> boards;
+  final Map<String, List<PlankaUser>> usersPerBoard; // Users per board map
   final PlankaProject currentProject;
 
-  const BoardList(this.boards, {super.key, required this.currentProject});
+  const BoardList(this.boards, {super.key, required this.currentProject, required this.usersPerBoard});
 
   @override
   BoardListState createState() => BoardListState();
@@ -61,6 +63,7 @@ class BoardListState extends State<BoardList> {
               );
             } else {
               final board = widget.boards[index];
+              final users = widget.usersPerBoard[board.id] ?? []; // Get users for this specific board
 
               return GestureDetector(
                 onTap: () {
@@ -103,7 +106,7 @@ class BoardListState extends State<BoardList> {
                               Wrap(
                                 spacing: 5,
                                 runSpacing: 5,
-                                children: board.users!.take(3).map((user) {
+                                children: users.take(3).map((user) {
                                   return CircleAvatar(
                                     backgroundImage: user.avatarUrl != null
                                         ? NetworkImage(user.avatarUrl!)
@@ -115,7 +118,7 @@ class BoardListState extends State<BoardList> {
                                   );
                                 }).toList(),
                               ),
-                              if (board.users!.length > 3)
+                              if (users.length > 3)
                                 const Text(
                                   '...',
                                   style: TextStyle(color: Colors.white),
@@ -174,7 +177,7 @@ class BoardListState extends State<BoardList> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
             ),
-            child: Text('delete'.tr(), style: TextStyle(color: Colors.white)),
+            child: Text('delete'.tr(), style: const TextStyle(color: Colors.white)),
           ),
           TextButton(
             onPressed: () {

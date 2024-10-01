@@ -37,8 +37,7 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
   // Callback method to refresh the lists
   void _refreshLists() {
     setState(() {
-      Provider.of<ListProvider>(context, listen: false)
-          .fetchLists(boardId: widget.currentBoard!.id, context: context);
+      Provider.of<ListProvider>(context, listen: false).fetchLists(boardId: widget.currentBoard!.id, context: context);
     });
   }
 

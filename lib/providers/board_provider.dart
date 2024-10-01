@@ -7,13 +7,17 @@ import 'auth_provider.dart';
 
 class BoardProvider with ChangeNotifier {
   final List<PlankaBoard> _boards = [];
-  final List<PlankaUser> _boardUsers = [];
+  final Map<String, List<PlankaUser>> _boardUsers = {};
   final AuthProvider authProvider;
+  final Map<String, List<PlankaUser>> _boardUsersMap = {}; // Users per board
 
   BoardProvider(this.authProvider);
 
   List<PlankaBoard> get boards => _boards;
-  List<PlankaUser> get boardUsers => _boardUsers;
+  // Access users for each board by board ID
+  Map<String, List<PlankaUser>> get boardUsersMap => _boardUsersMap;
+  // Access users per board using board ID
+  List<PlankaUser> getBoardUsers(String boardId) => _boardUsers[boardId] ?? [];
 
   Future<void> fetchBoards({required String projectId, required BuildContext context}) async {
     try {
@@ -53,32 +57,27 @@ class BoardProvider with ChangeNotifier {
     try {
       final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId');
 
-      final response = await http.get(
-          url,
-          headers: {'Authorization': 'Bearer ${authProvider.token}'}
-      );
+      final response = await http.get(url, headers: {'Authorization': 'Bearer ${authProvider.token}'});
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         final includedData = responseData['included'];
 
-        _boardUsers.clear();
-
         if (includedData != null && includedData.containsKey('users')) {
-          for (var userJson in includedData['users']) {
-            final PlankaUser user = PlankaUser.fromJson(userJson);
-            _boardUsers.add(user);
-          }
+          final List<PlankaUser> users = (includedData['users'] as List)
+              .map((userJson) => PlankaUser.fromJson(userJson))
+              .toList();
+
+          _boardUsersMap[boardId] = users; // Store users for the specific board
+        } else {
+          _boardUsersMap[boardId] = []; // If no users are found
         }
 
         notifyListeners();
       } else {
-        debugPrint('Failed to load board users: ${response.statusCode}');
-        debugPrint('Response body: ${response.body}');
         throw Exception('Failed to load board users: ${response.reasonPhrase}');
       }
     } catch (error) {
-      debugPrint('Error fetching board users: $error');
       throw Exception('Failed to load board users');
     }
   }
