@@ -7,7 +7,6 @@ import 'auth_provider.dart';
 
 class BoardProvider with ChangeNotifier {
   final List<PlankaBoard> _boards = [];
-  final Map<String, List<PlankaUser>> _boardUsers = {};
   final AuthProvider authProvider;
   final Map<String, List<PlankaUser>> _boardUsersMap = {}; // Users per board
 
@@ -17,7 +16,7 @@ class BoardProvider with ChangeNotifier {
   // Access users for each board by board ID
   Map<String, List<PlankaUser>> get boardUsersMap => _boardUsersMap;
   // Access users per board using board ID
-  List<PlankaUser> getBoardUsers(String boardId) => _boardUsers[boardId] ?? [];
+  List<PlankaUser> getBoardUsers(String boardId) => _boardUsersMap[boardId] ?? [];
 
   Future<void> fetchBoards({required String projectId, required BuildContext context}) async {
     try {
