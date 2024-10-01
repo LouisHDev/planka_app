@@ -8,6 +8,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../providers/board_provider.dart';
+import '../providers/user_provider.dart';
 import '../screens/list_screen.dart';
 
 class BoardList extends StatefulWidget {
@@ -41,12 +42,7 @@ class BoardListState extends State<BoardList> {
             if (index == widget.boards.length) {
               return GestureDetector(
                 onTap: () {
-                  showTopSnackBar(
-                    Overlay.of(context),
-                    CustomSnackBar.info(
-                      message: 'not_available_function'.tr(),
-                    ),
-                  );
+                  _showCreateBoardDialog(context);
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -243,5 +239,139 @@ class BoardListState extends State<BoardList> {
         ],
       ),
     );
+  }
+
+  void _showCreateBoardDialog(BuildContext context) {
+    final TextEditingController boardNameController = TextEditingController();
+    List<PlankaUser> selectedUsers = [];
+
+    // Fetch all users using UserProvider before showing the dialog
+    Provider.of<UserProvider>(context, listen: false).fetchUsers().then((_) {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              final allUsers = Provider.of<UserProvider>(ctx, listen: true).users; // Get users from UserProvider
+
+              return AlertDialog(
+                title: Text('create_board.create_new_board'.tr()),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Board Name Input
+                    TextField(
+                      controller: boardNameController,
+                      decoration: InputDecoration(
+                        labelText: 'create_board.board_name'.tr(),
+                        hintText: 'create_board.enter_board_name'.tr(),
+                      ),
+                      onSubmitted: (value) {
+                        if (boardNameController.text.isEmpty) {
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            CustomSnackBar.error(
+                              message: 'not_empty_name'.tr(),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Create new board and add members logic
+                        Provider.of<BoardProvider>(ctx, listen: false).createBoard(
+                          newBoardName: boardNameController.text,
+                          projectId: widget.currentProject.id,
+                          context: context,
+                          newPos: (widget.boards.last.position + 1000).toString(),
+                          // selectedUserIds: selectedUsers.map((user) => user.id).toList(),
+                        ).then((_) {
+                          // Call the onRefresh callback if it exists
+                          if (widget.onRefresh != null) {
+                            widget.onRefresh!();
+                          }
+
+                          Navigator.of(ctx).pop();
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Member Selection
+                    // Text('Select Members', style: TextStyle(fontWeight: FontWeight.bold)),
+                    // const SizedBox(height: 10),
+
+                    // Expanded(
+                    //   child: ListView.builder(
+                    //     shrinkWrap: true,
+                    //     itemCount: allUsers.length,
+                    //     itemBuilder: (context, index) {
+                    //       final user = allUsers[index];
+                    //       final bool isSelected = selectedUsers.contains(user);
+                    //
+                    //       return CheckboxListTile(
+                    //         title: Text(user.name),
+                    //         value: isSelected,
+                    //         onChanged: (bool? value) {
+                    //           setState(() {
+                    //             if (value == true) {
+                    //               selectedUsers.add(user);
+                    //             } else {
+                    //               selectedUsers.remove(user);
+                    //             }
+                    //           });
+                    //         },
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                  ],
+                ),
+                actions: [
+                  // Cancel Button
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('cancel'.tr()),
+                  ),
+
+                  // Create Button
+                  TextButton(
+                    onPressed: () {
+                      if (boardNameController.text.isEmpty) {
+                        showTopSnackBar(
+                          Overlay.of(context),
+                          CustomSnackBar.error(
+                            message: 'not_empty_name'.tr(),
+                          ),
+                        );
+                        return;
+                      }
+
+                      // Create new board and add members logic
+                      Provider.of<BoardProvider>(ctx, listen: false).createBoard(
+                        newBoardName: boardNameController.text,
+                        projectId: widget.currentProject.id,
+                        context: context,
+                        newPos: (widget.boards.last.position + 1000).toString(),
+                        // selectedUserIds: selectedUsers.map((user) => user.id).toList(),
+                      ).then((_) {
+                        // Call the onRefresh callback if it exists
+                        if (widget.onRefresh != null) {
+                          widget.onRefresh!();
+                        }
+
+                        Navigator.of(ctx).pop();
+                      });
+                    },
+                    child: Text('create'.tr()),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+    });
   }
 }

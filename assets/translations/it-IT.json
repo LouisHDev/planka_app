@@ -90,5 +90,11 @@
     "timer_already_present": "Un timer esiste già per questa scheda.",
     "timer_create": "Crea timer"
   },
-  "members": "Membri"
+  "members": "Membri",
+  "create_board": {
+    "create_new_board": "Crea una nuova bacheca",
+    "board_name": "Nome della bacheca",
+    "enter_board_name": "Inserisci il nome della bacheca"
+  },
+  "create": "Crea"
 }

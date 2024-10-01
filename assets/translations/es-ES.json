@@ -90,5 +90,11 @@
     "timer_already_present": "Ya existe un temporizador para esta tarjeta.",
     "timer_create": "Crear temporizador"
   },
-  "members": "Miembros"
+  "members": "Miembros",
+  "create_board": {
+    "create_new_board": "Crear un nuevo tablero",
+    "board_name": "Nombre del tablero",
+    "enter_board_name": "Introduce el nombre del tablero"
+  },
+  "create": "Crear"
 }

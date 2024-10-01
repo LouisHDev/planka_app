@@ -90,5 +90,11 @@
     "timer_already_present": "A timer already exists for this card.",
     "timer_create": "Create timer"
   },
-  "members": "Members"
+  "members": "Members",
+  "create_board": {
+    "create_new_board": "Create New Board",
+    "board_name": "Board Name",
+    "enter_board_name": "Enter Board Name"
+  },
+  "create": "Create"
 }

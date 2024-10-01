@@ -90,5 +90,11 @@
     "timer_already_present": "Un minuteur existe déjà pour cette carte.",
     "timer_create": "Créer un minuteur"
   },
-  "members": "Membres"
+  "members": "Membres",
+  "create_board": {
+    "create_new_board": "Créer un nouveau tableau",
+    "board_name": "Nom du tableau",
+    "enter_board_name": "Entrez le nom du tableau"
+  },
+  "create": "Créer"
 }

@@ -90,5 +90,11 @@
     "timer_already_present": "Es existiert bereits ein Timer für diese Karte.",
     "timer_create": "Timer erstellen"
   },
-  "members": "Mitglieder"
+  "members": "Mitglieder",
+  "create_board": {
+    "create_new_board": "Neues Board erstellen",
+    "board_name": "Board Name",
+    "enter_board_name": "Gib den Board Namen ein"
+  },
+  "create": "Erstellen"
 }

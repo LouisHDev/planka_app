@@ -90,5 +90,11 @@
     "timer_already_present": "Bu kart için zaten bir zamanlayıcı var.",
     "timer_create": "Zamanlayıcı oluştur"
   },
-  "members": "Üyeler"
+  "members": "Üyeler",
+  "create_board": {
+    "create_new_board": "Yeni Pano Oluştur",
+    "board_name": "Pano Adı",
+    "enter_board_name": "Pano Adını Girin"
+  },
+  "create": "Oluştur"
 }
