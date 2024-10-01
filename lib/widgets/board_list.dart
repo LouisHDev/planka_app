@@ -14,8 +14,9 @@ class BoardList extends StatefulWidget {
   final List<PlankaBoard> boards;
   final Map<String, List<PlankaUser>> usersPerBoard; // Users per board map
   final PlankaProject currentProject;
+  final VoidCallback? onRefresh;
 
-  const BoardList(this.boards, {super.key, required this.currentProject, required this.usersPerBoard});
+  const BoardList(this.boards, {super.key, required this.currentProject, required this.usersPerBoard, this.onRefresh});
 
   @override
   BoardListState createState() => BoardListState();
@@ -154,7 +155,12 @@ class BoardListState extends State<BoardList> {
           onSubmitted: (value) {
             // setState(() {
               if(editBoardController.text.isNotEmpty && editBoardController.text != ""){
-                Provider.of<BoardProvider>(ctx, listen: false).updateBoardName(board.id, value);
+                Provider.of<BoardProvider>(ctx, listen: false).updateBoardName(board.id, value).then((_) {
+                  // Call the onRefresh callback if it exists
+                  if (widget.onRefresh != null) {
+                    widget.onRefresh!();
+                  }
+                });
               } else {
                 showTopSnackBar(
                   Overlay.of(ctx),
@@ -183,12 +189,17 @@ class BoardListState extends State<BoardList> {
             onPressed: () {
               Navigator.of(ctx).pop();
             },
-            child: Text('cansel'.tr()),
+            child: Text('cancel'.tr()),
           ),
           TextButton(
             onPressed: () {
               if(editBoardController.text.isNotEmpty && editBoardController.text != ""){
-                Provider.of<BoardProvider>(ctx, listen: false).updateBoardName(board.id, editBoardController.text);
+                Provider.of<BoardProvider>(ctx, listen: false).updateBoardName(board.id, editBoardController.text).then((_) {
+                  // Call the onRefresh callback if it exists
+                  if (widget.onRefresh != null) {
+                    widget.onRefresh!();
+                  }
+                });
               } else {
                 showTopSnackBar(
                   Overlay.of(ctx),
@@ -219,7 +230,7 @@ class BoardListState extends State<BoardList> {
             onPressed: () {
               Navigator.of(ctx).pop();
             },
-            child: Text('cansel'.tr()),
+            child: Text('cancel'.tr()),
           ),
           TextButton(
             onPressed: () {

@@ -7,25 +7,34 @@ import 'package:provider/provider.dart';
 import '../models/planka_project.dart';
 
 class BoardScreen extends StatefulWidget {
-  const BoardScreen({super.key});
+  PlankaProject? project;
+
+  BoardScreen({super.key, this.project});
 
   @override
   _BoardScreenState createState() => _BoardScreenState();
 }
 
 class _BoardScreenState extends State<BoardScreen> {
+
+  // Callback method to refresh the lists
+  void _refreshBoards() {
+    setState(() {
+      Provider.of<BoardProvider>(context, listen: false).fetchBoards(projectId: widget.project!.id, context: context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final PlankaProject project = ModalRoute.of(context)!.settings.arguments as PlankaProject;
-    final backgroundImageUrl = project.backgroundImage?['url'];
+    final backgroundImageUrl = widget.project?.backgroundImage?['url'];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${'boards_for'.tr()} ${project.name}'),
+        title: Text('${'boards_for'.tr()} ${widget.project!.name}'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Provider.of<BoardProvider>(context, listen: false).fetchBoards(projectId: project.id, context: context).then((_) {
+          Provider.of<BoardProvider>(context, listen: false).fetchBoards(projectId: widget.project!.id, context: context).then((_) {
             _fetchUsersForBoards(context);
           });
         },
@@ -44,7 +53,7 @@ class _BoardScreenState extends State<BoardScreen> {
             : null,
         child: FutureBuilder(
           future: Provider.of<BoardProvider>(context, listen: false)
-              .fetchBoards(projectId: project.id, context: context),
+              .fetchBoards(projectId: widget.project!.id, context: context),
           builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting
               ? const Center(child: CircularProgressIndicator())
               : Consumer<BoardProvider>(
@@ -53,8 +62,9 @@ class _BoardScreenState extends State<BoardScreen> {
 
               return BoardList(
                 boardProvider.boards,
-                currentProject: project,
-                usersPerBoard: boardProvider.boardUsersMap, // Pass the users to the BoardList
+                currentProject: widget.project!,
+                usersPerBoard: boardProvider.boardUsersMap,
+                onRefresh: _refreshBoards,
               );
             },
           ),

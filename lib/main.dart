@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/login': (ctx) => const LoginScreen(),
           '/projects': (ctx) => const ProjectScreen(),
-          '/boards': (ctx) => const BoardScreen(),
+          '/boards': (ctx) => BoardScreen(),
           '/lists': (ctx) => ListScreen(),
           '/card': (ctx) =>  FCardScreen(),
           '/settings': (ctx) => const SettingsScreen()

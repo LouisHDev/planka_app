@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:planka_app/models/planka_project.dart';
+import 'package:planka_app/screens/board_screen.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -150,9 +151,10 @@ class ProjectListState extends State<ProjectList> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed(
-                      '/boards',
-                      arguments: project,
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => BoardScreen(project: project,)
+                      ),
                     );
                   },
                   onLongPress: () {
