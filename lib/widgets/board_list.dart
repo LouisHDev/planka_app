@@ -142,6 +142,9 @@ class BoardListState extends State<BoardList> {
 
     List<PlankaUser> selectedUsers = [];
 
+    // Prüfe, ob Benutzer dem Board zugewiesen sind
+    selectedUsers = widget.usersPerBoard[board.id] ?? [];
+
     // Fetch all users using UserProvider before showing the dialog
     Provider.of<UserProvider>(context, listen: false).fetchUsers().then((_) {
       showDialog(
@@ -201,8 +204,8 @@ class BoardListState extends State<BoardList> {
                             itemCount: allUsers.length,
                             itemBuilder: (context, index) {
                               final user = allUsers[index];
-                              final bool isSelected = selectedUsers.contains(
-                                  user);
+                              // Überprüfe, ob der Benutzer in `selectedUsers` ist
+                              final bool isSelected = selectedUsers.any((selectedUser) => selectedUser.id == user.id);
 
                               return CheckboxListTile(
                                 title: Text(user.name),
@@ -210,9 +213,11 @@ class BoardListState extends State<BoardList> {
                                 onChanged: (bool? value) {
                                   setState(() {
                                     if (value == true) {
+                                      // Benutzer hinzufügen, falls ausgewählt
                                       selectedUsers.add(user);
                                     } else {
-                                      selectedUsers.remove(user);
+                                      // Benutzer entfernen, falls abgewählt
+                                      selectedUsers.removeWhere((selectedUser) => selectedUser.id == user.id);
                                     }
                                   });
                                 },
@@ -241,8 +246,7 @@ class BoardListState extends State<BoardList> {
                       ),
                       TextButton(
                         onPressed: () {
-                          if (editBoardController.text.isNotEmpty &&
-                              editBoardController.text != "") {
+                          if (editBoardController.text.isNotEmpty && editBoardController.text != "") {
                             Provider.of<BoardProvider>(ctx, listen: false)
                                 .updateBoardName(
                                 board.id, editBoardController.text)
@@ -252,6 +256,48 @@ class BoardListState extends State<BoardList> {
                                 widget.onRefresh!();
                               }
                             });
+
+                            // Create new board and update members logic
+                            final selectedUserIds = selectedUsers.map((user) => user.id).toList();
+                            final previousUserIds = widget.usersPerBoard[board.id]?.map((user) => user.id).toList() ?? [];
+
+                            // 1. Benutzer hinzufügen, die neu ausgewählt wurden
+                            for (var userId in selectedUserIds) {
+                              if (!previousUserIds.contains(userId)) {
+                                Provider.of<BoardProvider>(ctx, listen: false)
+                                    .addBoardMember(
+                                  boardId: board.id,
+                                  userId: userId,
+                                  context: context,
+                                ).then((_) {
+                                  // Optional: Refresh or other actions
+                                  if (widget.onRefresh != null) {
+                                    widget.onRefresh!();
+                                  }
+                                });
+                              }
+                            }
+
+                            // 2. Benutzer entfernen, die nicht mehr ausgewählt sind
+                            for (var previousUserId in previousUserIds) {
+                              if (!selectedUserIds.contains(previousUserId)) {
+                                // Hier müssen wir die ID des Board-Mitglieds zum Entfernen verwenden
+                                Provider.of<BoardProvider>(ctx, listen: false)
+                                    .removeBoardMember(
+                                  context: context,
+                                  id: previousUserId, // Verwende hier die Board-Mitgliedschafts-ID
+                                ).then((_) {
+                                  // Optional: Refresh or other actions
+                                  if (widget.onRefresh != null) {
+                                    widget.onRefresh!();
+                                  }
+                                });
+                              }
+                            }
+
+                            // Schließlich den Dialog schließen, wenn alle Operationen abgeschlossen sind
+                            Navigator.of(ctx).pop();
+
                           } else {
                             showTopSnackBar(
                               Overlay.of(ctx),
@@ -268,7 +314,8 @@ class BoardListState extends State<BoardList> {
                       ),
                     ],
                   );
-                });
+                }
+            );
         }
       );
     });
