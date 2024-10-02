@@ -297,33 +297,33 @@ class BoardListState extends State<BoardList> {
                     const SizedBox(height: 20),
 
                     // Member Selection
-                    // Text('Select Members', style: TextStyle(fontWeight: FontWeight.bold)),
-                    // const SizedBox(height: 10),
+                    Text('members'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10),
 
-                    // Expanded(
-                    //   child: ListView.builder(
-                    //     shrinkWrap: true,
-                    //     itemCount: allUsers.length,
-                    //     itemBuilder: (context, index) {
-                    //       final user = allUsers[index];
-                    //       final bool isSelected = selectedUsers.contains(user);
-                    //
-                    //       return CheckboxListTile(
-                    //         title: Text(user.name),
-                    //         value: isSelected,
-                    //         onChanged: (bool? value) {
-                    //           setState(() {
-                    //             if (value == true) {
-                    //               selectedUsers.add(user);
-                    //             } else {
-                    //               selectedUsers.remove(user);
-                    //             }
-                    //           });
-                    //         },
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: allUsers.length,
+                        itemBuilder: (context, index) {
+                          final user = allUsers[index];
+                          final bool isSelected = selectedUsers.contains(user);
+
+                          return CheckboxListTile(
+                            title: Text(user.name),
+                            value: isSelected,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                if (value == true) {
+                                  selectedUsers.add(user);
+                                } else {
+                                  selectedUsers.remove(user);
+                                }
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 actions: [
