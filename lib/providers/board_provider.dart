@@ -81,19 +81,32 @@ class BoardProvider with ChangeNotifier {
     }
   }
 
-  Future<void> createBoard({required String newBoardName, required String projectId, required BuildContext context, required String newPos}) async {
+  Future<String> createBoard({
+    required String newBoardName,
+    required String projectId,
+    required BuildContext context,
+    required String newPos,
+  }) async {
     try {
       final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectId/boards/?position=$newPos');
 
-      await http.post(
-          url,
-          body: json.encode({'name': newBoardName}),
-          headers: {'Authorization': 'Bearer ${authProvider.token}'}
+      final response = await http.post(
+        url,
+        body: json.encode({'name': newBoardName}),
+        headers: {'Authorization': 'Bearer ${authProvider.token}'},
       );
 
-      await fetchBoards(projectId: projectId, context: context);
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        final boardId = responseData['item']['id']; // Die Board-ID aus der Antwort extrahieren
 
-      notifyListeners();
+        await fetchBoards(projectId: projectId, context: context);
+
+        notifyListeners();
+        return boardId; // Die ID des erstellten Boards zurückgeben
+      } else {
+        throw Exception('Failed to create board');
+      }
     } catch (error) {
       debugPrint('Error creating board: $error');
       throw Exception('Failed to create board');
@@ -162,6 +175,63 @@ class BoardProvider with ChangeNotifier {
     } catch (error) {
       debugPrint('Error: $error');
       throw Exception('Failed to update board');
+    }
+  }
+
+  Future<void> addBoardMember({required BuildContext context, required String boardId, required String userId}) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId/memberships');
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'boardId': boardId,
+          'userId': userId,
+          'role': "editor",
+          'canComment': true
+        }),
+        headers: {
+          'Authorization': 'Bearer ${authProvider.token}',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        notifyListeners();
+      } else {
+        debugPrint('Failed to add Board user: ${response.statusCode}');
+        throw Exception('Failed to add Board user: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to add Board user');
+    }
+  }
+
+  Future<void> removeBoardMember({required BuildContext context, required String id}) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/board-memberships/$id');
+
+    try {
+      final response = await http.delete(
+        url,
+        body: json.encode({
+          'id': id,
+        }),
+        headers: {
+          'Authorization': 'Bearer ${authProvider.token}',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        notifyListeners();
+      } else {
+        debugPrint('Failed to delete Board user: ${response.statusCode}');
+        throw Exception('Failed to delete Board user: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to delete Board user');
     }
   }
 

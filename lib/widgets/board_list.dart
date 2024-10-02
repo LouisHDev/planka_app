@@ -140,79 +140,138 @@ class BoardListState extends State<BoardList> {
   void _showEditBoardDialog(BuildContext context, PlankaBoard board) {
     final editBoardController = TextEditingController(text: board.name);
 
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('edit_board'.tr()),
-        content: TextField(
-          autofocus: true,
-          controller: editBoardController,
-          decoration: InputDecoration(labelText: 'board_name'.tr()),
-          onSubmitted: (value) {
-            // setState(() {
-              if(editBoardController.text.isNotEmpty && editBoardController.text != ""){
-                Provider.of<BoardProvider>(ctx, listen: false).updateBoardName(board.id, value).then((_) {
-                  // Call the onRefresh callback if it exists
-                  if (widget.onRefresh != null) {
-                    widget.onRefresh!();
-                  }
-                });
-              } else {
-                showTopSnackBar(
-                  Overlay.of(ctx),
-                  CustomSnackBar.error(
-                    message:
-                    'not_empty_name'.tr(),
-                  ),
-                );
-              }
+    List<PlankaUser> selectedUsers = [];
 
-              Navigator.of(ctx).pop();
-            // });
-          },
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              _showDeleteConfirmationDialog(ctx, board.id);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
-            child: Text('delete'.tr(), style: const TextStyle(color: Colors.white)),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-            child: Text('cancel'.tr()),
-          ),
-          TextButton(
-            onPressed: () {
-              if(editBoardController.text.isNotEmpty && editBoardController.text != ""){
-                Provider.of<BoardProvider>(ctx, listen: false).updateBoardName(board.id, editBoardController.text).then((_) {
-                  // Call the onRefresh callback if it exists
-                  if (widget.onRefresh != null) {
-                    widget.onRefresh!();
-                  }
-                });
-              } else {
-                showTopSnackBar(
-                  Overlay.of(ctx),
-                  CustomSnackBar.error(
-                    message:
-                    'not_empty_name'.tr(),
-                  ),
-                );
-              }
+    // Fetch all users using UserProvider before showing the dialog
+    Provider.of<UserProvider>(context, listen: false).fetchUsers().then((_) {
+      showDialog(
+        context: context,
+          builder: (ctx) {
+            return StatefulBuilder(
+                builder: (context, setState) {
+                  final allUsers = Provider.of<UserProvider>(ctx, listen: true).users;
+                  return AlertDialog(
+                    title: Text('edit_board'.tr()),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Board Name Input
+                        TextField(
+                          autofocus: true,
+                          controller: editBoardController,
+                          decoration: InputDecoration(labelText: 'board_name'
+                              .tr()),
+                          onSubmitted: (value) {
+                            if (editBoardController.text.isNotEmpty &&
+                                editBoardController.text != "") {
+                              Provider.of<BoardProvider>(ctx, listen: false)
+                                  .updateBoardName(board.id, value)
+                                  .then((_) {
+                                // Call the onRefresh callback if it exists
+                                if (widget.onRefresh != null) {
+                                  widget.onRefresh!();
+                                }
+                              });
+                            } else {
+                              showTopSnackBar(
+                                Overlay.of(ctx),
+                                CustomSnackBar.error(
+                                  message:
+                                  'not_empty_name'.tr(),
+                                ),
+                              );
+                            }
 
-              Navigator.of(ctx).pop();
-            },
-            child: Text('change'.tr()),
-          ),
-        ],
-      ),
-    );
+                            Navigator.of(ctx).pop();
+                          },
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Member Selection
+                        Text('members'.tr(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 10),
+
+                        SizedBox(
+                          width: double.maxFinite,
+                          height: 200,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: allUsers.length,
+                            itemBuilder: (context, index) {
+                              final user = allUsers[index];
+                              final bool isSelected = selectedUsers.contains(
+                                  user);
+
+                              return CheckboxListTile(
+                                title: Text(user.name),
+                                value: isSelected,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    if (value == true) {
+                                      selectedUsers.add(user);
+                                    } else {
+                                      selectedUsers.remove(user);
+                                    }
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          _showDeleteConfirmationDialog(ctx, board.id);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        child: Text('delete'.tr(),
+                            style: const TextStyle(color: Colors.white)),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Text('cancel'.tr()),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          if (editBoardController.text.isNotEmpty &&
+                              editBoardController.text != "") {
+                            Provider.of<BoardProvider>(ctx, listen: false)
+                                .updateBoardName(
+                                board.id, editBoardController.text)
+                                .then((_) {
+                              // Call the onRefresh callback if it exists
+                              if (widget.onRefresh != null) {
+                                widget.onRefresh!();
+                              }
+                            });
+                          } else {
+                            showTopSnackBar(
+                              Overlay.of(ctx),
+                              CustomSnackBar.error(
+                                message:
+                                'not_empty_name'.tr(),
+                              ),
+                            );
+                          }
+
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Text('change'.tr()),
+                      ),
+                    ],
+                  );
+                });
+        }
+      );
+    });
   }
 
   void _showDeleteConfirmationDialog(BuildContext context, String boardId) {
@@ -300,7 +359,9 @@ class BoardListState extends State<BoardList> {
                     Text('members'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
 
-                    Expanded(
+                    SizedBox(
+                      width: double.maxFinite,
+                      height: 200,
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: allUsers.length,
@@ -354,8 +415,18 @@ class BoardListState extends State<BoardList> {
                         projectId: widget.currentProject.id,
                         context: context,
                         newPos: (widget.boards.last.position + 1000).toString(),
-                        // selectedUserIds: selectedUsers.map((user) => user.id).toList(),
-                      ).then((_) {
+                      ).then((boardId) {  // 'boardId' aus der Antwort der Funktion
+                        /// Für jeden Benutzer in der Liste `selectedUserIds` die Funktion `addBoardMember` aufrufen
+                        final selectedUserIds = selectedUsers.map((user) => user.id).toList();
+
+                        for (var userId in selectedUserIds) {
+                          Provider.of<BoardProvider>(ctx, listen: false).addBoardMember(
+                            boardId: boardId,  // Hier verwenden wir die zurückgegebene 'boardId'
+                            userId: userId,
+                            context: context,
+                          );
+                        }
+                      }).then((_) {
                         // Call the onRefresh callback if it exists
                         if (widget.onRefresh != null) {
                           widget.onRefresh!();
