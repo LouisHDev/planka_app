@@ -323,6 +323,7 @@ class _BoardState extends ConsumerState<Board> {
                               alignment: Alignment.topLeft,
                               transform: Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // Render all lists if any exist
                                   ...boardProv.board.lists.map((e) {
@@ -333,8 +334,8 @@ class _BoardState extends ConsumerState<Board> {
                                   }),
 
                                   // Always show the "Add List" widget after the lists (or alone if there are no lists)
-                                  boardListProv.newList
-                                      ? Container(
+                                  boardListProv.newList ?
+                                  Container(
                                     margin: const EdgeInsets.only(top: 20, right: 30),
                                     padding: const EdgeInsets.only(bottom: 20),
                                     width: 300,
