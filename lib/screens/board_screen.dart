@@ -68,6 +68,7 @@ class _BoardScreenState extends State<BoardScreen> {
                 boardProvider.boards,
                 currentProject: widget.project!,
                 usersPerBoard: boardProvider.boardUsersMap,
+                boardMembershipMap: boardProvider.boardMembershipsMap,
                 onRefresh: _refreshBoards,
               );
             },
@@ -84,7 +85,7 @@ class _BoardScreenState extends State<BoardScreen> {
     // Fetch users only if they haven't been fetched yet
     if (!_usersFetched) {
       for (var board in boardProvider.boards) {
-        boardProvider.fetchBoardUsers(boardId: board.id, context: context);
+        boardProvider.fetchBoardUsersAndMemberships(boardId: board.id, context: context);
       }
       // setState(() {
         _usersFetched = true; // Ensure users are fetched only once

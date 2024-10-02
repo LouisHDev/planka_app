@@ -708,7 +708,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
               _animationController.reverse();
 
               // Call fetchUsers to ensure users are fetched before accessing the list
-              await boardProvider.fetchBoardUsers(boardId: widget.currentBoard.id, context: context);  // Ensure this completes before proceeding
+              await boardProvider.fetchBoardUsersAndMemberships(boardId: widget.currentBoard.id, context: context);  // Ensure this completes before proceeding
 
               // Now access the users list directly from the provider
               List<PlankaUser> users = boardProvider.getBoardUsers(widget.currentBoard.id);  // Use the global users list

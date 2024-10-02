@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:planka_app/models/card_models/planka_membership.dart';
 import 'package:planka_app/models/planka_board.dart';
 import 'package:planka_app/models/planka_project.dart';
 import 'package:planka_app/models/planka_user.dart';
@@ -14,10 +15,11 @@ import '../screens/list_screen.dart';
 class BoardList extends StatefulWidget {
   final List<PlankaBoard> boards;
   final Map<String, List<PlankaUser>> usersPerBoard; // Users per board map
+  final Map<String, List<BoardMembership>> boardMembershipMap; // Users per board map
   final PlankaProject currentProject;
   final VoidCallback? onRefresh;
 
-  const BoardList(this.boards, {super.key, required this.currentProject, required this.usersPerBoard, this.onRefresh});
+  const BoardList(this.boards, {super.key, required this.currentProject, required this.usersPerBoard, this.onRefresh, required this.boardMembershipMap});
 
   @override
   BoardListState createState() => BoardListState();
@@ -196,35 +198,73 @@ class BoardListState extends State<BoardList> {
                                 fontWeight: FontWeight.bold)),
                         const SizedBox(height: 10),
 
-                        SizedBox(
-                          width: double.maxFinite,
-                          height: 200,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: allUsers.length,
-                            itemBuilder: (context, index) {
-                              final user = allUsers[index];
-                              // Überprüfe, ob der Benutzer in `selectedUsers` ist
-                              final bool isSelected = selectedUsers.any((selectedUser) => selectedUser.id == user.id);
+                    SizedBox(
+                      width: double.maxFinite,
+                      height: 200,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: allUsers.length,
+                        itemBuilder: (context, index) {
+                          final user = allUsers[index];
+                          // Überprüfe, ob der Benutzer in `selectedUsers` ist
+                          final bool isSelected = selectedUsers.any((selectedUser) => selectedUser.id == user.id);
 
-                              return CheckboxListTile(
-                                title: Text(user.name),
-                                value: isSelected,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    if (value == true) {
-                                      // Benutzer hinzufügen, falls ausgewählt
-                                      selectedUsers.add(user);
-                                    } else {
-                                      // Benutzer entfernen, falls abgewählt
-                                      selectedUsers.removeWhere((selectedUser) => selectedUser.id == user.id);
+                          return CheckboxListTile(
+                            title: Text(user.name),
+                            value: isSelected,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                if (value == true) {
+                                  // Add user when selected
+                                  selectedUsers.add(user);
+                                  Provider.of<BoardProvider>(ctx, listen: false).addBoardMember(
+                                    boardId: board.id,
+                                    userId: user.id,
+                                    context: context,
+                                  );
+
+                                  Navigator.pop(context);
+                                } else {
+                                  print('Checking for user ID: ${user.id}');
+                                  // Debugging: Print out the board memberships for this board
+                                  if (widget.boardMembershipMap.containsKey(board.id)) {
+                                    final boardMemberships = widget.boardMembershipMap[board.id];
+
+                                    print('Board Memberships for board ${board.id}:');
+                                    for (var membership in boardMemberships!) {
+                                      print('Membership ID: ${membership.id}, User ID: ${membership.userId}');
                                     }
-                                  });
-                                },
-                              );
+
+                                    final membership = boardMemberships.firstWhere(
+                                          (membership) => membership.userId == user.id,
+                                      orElse: () => BoardMembership(id: "invalid", userId: "invalid", boardId: "invalid", role: "invalid"),
+                                    );
+
+                                    if (membership.id != "invalid") {
+                                      setState(() {
+                                        selectedUsers.removeWhere((selectedUser) => selectedUser.id == user.id); // Use removeWhere by id
+                                      });
+
+                                      // Remove user after state change
+                                      Provider.of<BoardProvider>(ctx, listen: false).removeBoardMember(
+                                        context: context,
+                                        id: membership.id, // Use the correct membership ID here
+                                      );
+
+                                      Navigator.pop(context);
+                                    } else {
+                                      print('No matching membership found for user ${user.id}');
+                                    }
+                                  } else {
+                                    print('No memberships found for board ${board.id}');
+                                  }
+                                }
+                              });
                             },
-                          ),
-                        ),
+                          );
+                        },
+                      ),
+                    )
                       ],
                     ),
                     actions: [
@@ -243,74 +283,6 @@ class BoardListState extends State<BoardList> {
                           Navigator.of(ctx).pop();
                         },
                         child: Text('cancel'.tr()),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          if (editBoardController.text.isNotEmpty && editBoardController.text != "") {
-                            Provider.of<BoardProvider>(ctx, listen: false)
-                                .updateBoardName(
-                                board.id, editBoardController.text)
-                                .then((_) {
-                              // Call the onRefresh callback if it exists
-                              if (widget.onRefresh != null) {
-                                widget.onRefresh!();
-                              }
-                            });
-
-                            // Create new board and update members logic
-                            final selectedUserIds = selectedUsers.map((user) => user.id).toList();
-                            final previousUserIds = widget.usersPerBoard[board.id]?.map((user) => user.id).toList() ?? [];
-
-                            // 1. Benutzer hinzufügen, die neu ausgewählt wurden
-                            for (var userId in selectedUserIds) {
-                              if (!previousUserIds.contains(userId)) {
-                                Provider.of<BoardProvider>(ctx, listen: false)
-                                    .addBoardMember(
-                                  boardId: board.id,
-                                  userId: userId,
-                                  context: context,
-                                ).then((_) {
-                                  // Optional: Refresh or other actions
-                                  if (widget.onRefresh != null) {
-                                    widget.onRefresh!();
-                                  }
-                                });
-                              }
-                            }
-
-                            // 2. Benutzer entfernen, die nicht mehr ausgewählt sind
-                            for (var previousUserId in previousUserIds) {
-                              if (!selectedUserIds.contains(previousUserId)) {
-                                // Hier müssen wir die ID des Board-Mitglieds zum Entfernen verwenden
-                                Provider.of<BoardProvider>(ctx, listen: false)
-                                    .removeBoardMember(
-                                  context: context,
-                                  id: previousUserId, // Verwende hier die Board-Mitgliedschafts-ID
-                                ).then((_) {
-                                  // Optional: Refresh or other actions
-                                  if (widget.onRefresh != null) {
-                                    widget.onRefresh!();
-                                  }
-                                });
-                              }
-                            }
-
-                            // Schließlich den Dialog schließen, wenn alle Operationen abgeschlossen sind
-                            Navigator.of(ctx).pop();
-
-                          } else {
-                            showTopSnackBar(
-                              Overlay.of(ctx),
-                              CustomSnackBar.error(
-                                message:
-                                'not_empty_name'.tr(),
-                              ),
-                            );
-                          }
-
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Text('change'.tr()),
                       ),
                     ],
                   );

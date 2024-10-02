@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:planka_app/models/card_models/planka_membership.dart';
 import 'package:planka_app/models/planka_board.dart';
 import 'package:planka_app/models/planka_user.dart';
 import 'dart:convert';
@@ -9,12 +10,15 @@ class BoardProvider with ChangeNotifier {
   final List<PlankaBoard> _boards = [];
   final AuthProvider authProvider;
   final Map<String, List<PlankaUser>> _boardUsersMap = {}; // Users per board
+  final Map<String, List<BoardMembership>> _boardMembershipsMap = {}; // Users per board
 
   BoardProvider(this.authProvider);
 
   List<PlankaBoard> get boards => _boards;
   // Access users for each board by board ID
   Map<String, List<PlankaUser>> get boardUsersMap => _boardUsersMap;
+  Map<String, List<BoardMembership>> get boardMembershipsMap => _boardMembershipsMap;
+
   // Access users per board using board ID
   List<PlankaUser> getBoardUsers(String boardId) => _boardUsersMap[boardId] ?? [];
 
@@ -52,7 +56,7 @@ class BoardProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchBoardUsers({required String boardId, required BuildContext context}) async {
+  Future<void> fetchBoardUsersAndMemberships({required String boardId, required BuildContext context}) async {
     try {
       final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId');
 
@@ -62,22 +66,38 @@ class BoardProvider with ChangeNotifier {
         final responseData = json.decode(response.body);
         final includedData = responseData['included'];
 
-        if (includedData != null && includedData.containsKey('users')) {
-          final List<PlankaUser> users = (includedData['users'] as List)
-              .map((userJson) => PlankaUser.fromJson(userJson))
-              .toList();
+        // Initialize empty lists for users and memberships
+        List<PlankaUser> users = [];
+        List<BoardMembership> memberships = [];
 
-          _boardUsersMap[boardId] = users; // Store users for the specific board
+        if (includedData != null) {
+          // Extract users
+          if (includedData.containsKey('users')) {
+            users = (includedData['users'] as List).map((userJson) => PlankaUser.fromJson(userJson)).toList();
+          }
+
+          // Extract memberships
+          if (includedData.containsKey('boardMemberships')) {
+            memberships = (includedData['boardMemberships'] as List)
+                .map((membershipJson) => BoardMembership.fromJson(membershipJson))
+                .toList();
+          }
+
+          // Store users and memberships in separate maps
+          _boardUsersMap[boardId] = users;           // Store users for the board
+          _boardMembershipsMap[boardId] = memberships; // Store memberships for the board
         } else {
-          _boardUsersMap[boardId] = []; // If no users are found
+          // If no users or memberships are found, set empty lists
+          _boardUsersMap[boardId] = [];
+          _boardMembershipsMap[boardId] = [];
         }
 
-        notifyListeners();
+        notifyListeners(); // Update listeners with new data
       } else {
-        throw Exception('Failed to load board users: ${response.reasonPhrase}');
+        throw Exception('Failed to load board users and memberships: ${response.reasonPhrase}');
       }
     } catch (error) {
-      throw Exception('Failed to load board users');
+      throw Exception('Failed to load board users and memberships');
     }
   }
 
