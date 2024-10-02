@@ -1,9 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Provider/provider_list.dart';
-import '../models/board_list.dart' as board_list;
 import '../models/inputs.dart';
 import 'board_list.dart';
 import 'text_field.dart';
@@ -321,154 +321,92 @@ class _BoardState extends ConsumerState<Board> {
                             scrollDirection: Axis.horizontal,
                             child: Transform(
                               alignment: Alignment.topLeft,
-                              // scaleX: 0.45,
-                              transform: Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-                                  1, 0, 0, 0, 0, 1),
+                              transform: Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1),
                               child: Row(
-                                  children: boardProv.board.lists
-                                      .map(
-                                          (e) =>
-                                              boardProv.board.lists
-                                                          .indexOf(e) !=
-                                                      boardProv.board.lists
-                                                              .length -
-                                                          1
-                                                  ? Container(
-                                                       margin: const EdgeInsets.only(left: 20,),
-                                                    child: BoardList(
-                                                        index: boardProv
-                                                            .board.lists
-                                                            .indexOf(e),
-                                                      ),
-                                                  )
-                                                  : Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        BoardList(
-                                                          index: boardProv
-                                                              .board.lists
-                                                              .indexOf(e),
-                                                        ),
-                                                        boardListProv.newList
-                                                            ? Container(
-                                                                margin:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                  top: 20,
-                                                                  right: 30,
-                                                                ),
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                  bottom: 20,
-                                                                ),
-                                                                width: 300,
-                                                                color: const Color
-                                                                    .fromARGB(
-                                                                  255,
-                                                                  247,
-                                                                  248,
-                                                                  252,
-                                                                ),
-                                                                child: Wrap(
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      height:
-                                                                          50,
-                                                                      width:
-                                                                          300,
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          IconButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              setState(() {
-                                                                                boardListProv.newList = false;
-                                                                                boardProv.board.newCardTextController.clear();
-                                                                              });
-                                                                            },
-                                                                            icon: const Icon(Icons.close),
-                                                                          ),
-                                                                          IconButton(
-                                                                              onPressed: () {
-                                                                                setState(() {
-                                                                                  boardListProv.newList = false;
-                                                                                  // boardProv.board.lists.add(board_list.BoardList(
-                                                                                  //   width: 300,
-                                                                                  //   scrollController: ScrollController(),
-                                                                                  //   items: [],
-                                                                                  //   title: boardProv.board.newCardTextController.text,
-                                                                                  // ));
+                                children: [
+                                  // Render all lists if any exist
+                                  ...boardProv.board.lists.map((e) {
+                                    return Container(
+                                      margin: const EdgeInsets.only(left: 20),
+                                      child: BoardList(index: boardProv.board.lists.indexOf(e)),
+                                    );
+                                  }),
 
-                                                                                  ///Create New List Here
-                                                                                  if (widget.onListCreate != null) {
-                                                                                    widget.onListCreate!(boardProv.board.newCardTextController.text);
-                                                                                  }
-
-                                                                                  boardProv.board.newCardTextController.clear();
-                                                                                });
-                                                                              },
-                                                                              icon: const Icon(Icons.done))
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                        width:
-                                                                            300,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        margin: const EdgeInsets
-                                                                            .only(
-                                                                            top:
-                                                                                20,
-                                                                            right:
-                                                                                10,
-                                                                            left:
-                                                                                10),
-                                                                        child:
-                                                                            const TField()),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            : GestureDetector(
-                                                                onTap: () {
-                                                                  if (boardProv
-                                                                          .board
-                                                                          .newCardFocused ==
-                                                                      true) {
-                                                                    ref
-                                                                        .read(ProviderList
-                                                                            .cardProvider)
-                                                                        .saveNewCard();
-                                                                  }
-                                                                  boardListProv
-                                                                          .newList =
-                                                                      true;
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                                child: Container(
-                                                                    height: 50,
-                                                                    width: 300,
-                                                                    margin: const EdgeInsets.only(top: 20, right: 20,),
-                                                                    decoration: BoxDecoration(
-                                                                        color: const Color.fromARGB(
-                                                                          255,
-                                                                          247,
-                                                                          248,
-                                                                          252,
-                                                                        ),
-                                                                        borderRadius: BorderRadius.circular(6)),
-                                                                    child: Center(child: Text("Add List", style: widget.textStyle))),
-                                                              )
-                                                      ],
-                                                    ))
-                                      .toList()),
+                                  // Always show the "Add List" widget after the lists (or alone if there are no lists)
+                                  boardListProv.newList
+                                      ? Container(
+                                    margin: const EdgeInsets.only(top: 20, right: 30),
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    width: 300,
+                                    color: const Color.fromARGB(255, 247, 248, 252),
+                                    child: Wrap(
+                                      children: [
+                                        SizedBox(
+                                          height: 50,
+                                          width: 300,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    boardListProv.newList = false;
+                                                    boardProv.board.newCardTextController.clear();
+                                                  });
+                                                },
+                                                icon: const Icon(Icons.close),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    boardListProv.newList = false;
+                                                    // Create New List Here
+                                                    if (widget.onListCreate != null) {
+                                                      widget.onListCreate!(boardProv.board.newCardTextController.text);
+                                                    }
+                                                    boardProv.board.newCardTextController.clear();
+                                                  });
+                                                },
+                                                icon: const Icon(Icons.done),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 300,
+                                          color: Colors.white,
+                                          margin: const EdgeInsets.only(top: 20, right: 10, left: 10),
+                                          child: const TField(), // Replace TField with your text field implementation
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                      : GestureDetector(
+                                    onTap: () {
+                                      if (boardProv.board.newCardFocused == true) {
+                                        ref.read(ProviderList.cardProvider).saveNewCard();
+                                      }
+                                      boardListProv.newList = true;
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 300,
+                                      margin: const EdgeInsets.only(top: 20, right: 20),
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(255, 247, 248, 252),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'create_list'.tr(),
+                                          style: widget.textStyle,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -482,8 +420,7 @@ class _BoardState extends ConsumerState<Board> {
                     if (boardProv.board.isElementDragged) {
                       boardListProv.maybeListScroll();
                     }
-                    return boardProv.board.isElementDragged ||
-                            boardProv.board.isListDragged
+                    return boardProv.board.isElementDragged || boardProv.board.isListDragged
                         ? Positioned(
                             left: value.dx,
                             top: value.dy,

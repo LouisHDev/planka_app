@@ -96,5 +96,6 @@
     "board_name": "Nome della bacheca",
     "enter_board_name": "Inserisci il nome della bacheca"
   },
-  "create": "Crea"
+  "create": "Crea",
+  "create_list": "Crea lista"
 }

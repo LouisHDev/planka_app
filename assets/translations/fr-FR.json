@@ -96,5 +96,6 @@
     "board_name": "Nom du tableau",
     "enter_board_name": "Entrez le nom du tableau"
   },
-  "create": "Créer"
+  "create": "Créer",
+  "create_list": "Créer une liste"
 }

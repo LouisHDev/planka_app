@@ -96,5 +96,6 @@
     "board_name": "Board Name",
     "enter_board_name": "Enter Board Name"
   },
-  "create": "Create"
+  "create": "Create",
+  "create_list": "Create List"
 }

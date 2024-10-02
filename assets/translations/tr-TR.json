@@ -96,5 +96,6 @@
     "board_name": "Pano Adı",
     "enter_board_name": "Pano Adını Girin"
   },
-  "create": "Oluştur"
+  "create": "Oluştur",
+  "create_list": "Liste Oluştur"
 }
