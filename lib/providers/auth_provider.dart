@@ -33,7 +33,7 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
       } else {
         debugPrint('Failed to authenticate: ${response.body}');
-        throw Exception('Something is wrong with your token.');
+        throw Exception('failed_to_authenticate'.tr());
       }
     } catch (error) {
       debugPrint('Error: $error');
@@ -41,8 +41,8 @@ class AuthProvider with ChangeNotifier {
         Overlay.of(context),
         CustomSnackBar.error(
           message:
-          // "failed_to_authenticate".tr(),
-          'Failed to authenticate: $error}',
+          "failed_to_authenticate".tr(),
+          // 'Failed to authenticate: $error',
         ),
       );
       throw Exception('failed_to_authenticate'.tr());
