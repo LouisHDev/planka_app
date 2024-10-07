@@ -41,7 +41,8 @@ class AuthProvider with ChangeNotifier {
         Overlay.of(context),
         CustomSnackBar.error(
           message:
-          "failed_to_authenticate".tr(),
+          // "failed_to_authenticate".tr(),
+          'Failed to authenticate: $error}',
         ),
       );
       throw Exception('failed_to_authenticate'.tr());
