@@ -16,7 +16,7 @@ Planka App is an open-source mobile application developed using [Flutter](https:
 - App Wide Caching
 - Enhanced Multi Language Support
 - Renaming, Deleting, Creating of Projects
-- Deleting and Creating of Boards
+- If you are pretty fluent in a language that does not exist already, feel free to translate!
 - Got any suggestions?
 
 ## Installation
