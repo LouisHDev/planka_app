@@ -42,7 +42,6 @@ class AuthProvider with ChangeNotifier {
         CustomSnackBar.error(
           message:
           "failed_to_authenticate".tr(),
-          // 'Failed to authenticate: $error',
         ),
       );
       throw Exception('failed_to_authenticate'.tr());
