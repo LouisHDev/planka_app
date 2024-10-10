@@ -14,13 +14,21 @@ class AuthProvider with ChangeNotifier {
   String get domain => _domain;
 
   Future<void> login(String emailOrUsername, String password, String domain, BuildContext context) async {
-    _domain = domain;
-    final url = Uri.parse('https://$domain/api/access-tokens');
+    // Remove "https://" if it exists and trim any whitespace
+    _domain = domain.replaceFirst(RegExp(r'^https://'), '').trim();
+    final cleanedEmailOrUsername = emailOrUsername.trim();
+    final cleanedPassword = password.trim();
+
+    // Construct the URL
+    final url = Uri.parse('https://$_domain/api/access-tokens');
 
     try {
       final response = await http.post(
         url,
-        body: json.encode({'emailOrUsername': emailOrUsername, 'password': password}),
+        body: json.encode({
+          'emailOrUsername': cleanedEmailOrUsername,
+          'password': cleanedPassword,
+        }),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -40,8 +48,7 @@ class AuthProvider with ChangeNotifier {
       showTopSnackBar(
         Overlay.of(context),
         CustomSnackBar.error(
-          message:
-          "failed_to_authenticate".tr(),
+          message: "failed_to_authenticate".tr(),
         ),
       );
       throw Exception('failed_to_authenticate'.tr());

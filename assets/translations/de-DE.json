@@ -9,7 +9,7 @@
   "login_fields": {
     "0": "Email",
     "1": "Passwort",
-    "2": "Serveradresse"
+    "2": "Serveradresse (ohne https://)"
   },
   "not_valid_image": "Kein Unterstütztes Format.",
   "settings": "Einstellungen",
