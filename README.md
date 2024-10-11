@@ -2,6 +2,9 @@
 
 Planka App is an open-source mobile application developed using [Flutter](https://flutter.dev). It integrates with the [Planka](https://github.com/plankanban/planka) open-source project management platform via its API, allowing users to manage boards, lists, and tasks from their mobile devices.
 
+## Info
+This project is being developed by someone who has a full-time job, so it won't move as quickly as you might hope. You are welcome to participate as a maintainer! I will try my best to fix all issues as fast as possible.
+
 ## Features
 
 - **Board Management**: Create and manage project boards.
