@@ -281,7 +281,12 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                                   context: context,
                                   cardId: cardId,
                                   labelId: label.id,
-                                );
+                                ).then((_) {
+                                  // Call the onRefresh callback if it exists
+                                  if (widget.onRefresh != null) {
+                                    widget.onRefresh!();
+                                  }
+                                });
 
                                 cardLabelIds.remove(label.id);
                               });
@@ -292,7 +297,12 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                                   context: context,
                                   cardId: cardId,
                                   labelId: label.id,
-                                );
+                                ).then((_) {
+                                  // Call the onRefresh callback if it exists
+                                  if (widget.onRefresh != null) {
+                                    widget.onRefresh!();
+                                  }
+                                });
 
                                 cardLabelIds.add(label.id);
                               });
