@@ -173,7 +173,7 @@ class ProjectListState extends State<ProjectList> {
                           onSubmitted: (value) {
                             if (editBoardController.text.isNotEmpty &&
                                 editBoardController.text != "") {
-                              Provider.of<ProjectProvider>(ctx, listen: false).updateProjectName(project.id, value).then((_) {
+                              Provider.of<ProjectProvider>(ctx, listen: false).updateProjectName(project.id, value, context).then((_) {
                                 // Call the onRefresh callback if it exists
                                 if (widget.onRefresh != null) {
                                   widget.onRefresh!();
@@ -308,7 +308,7 @@ class ProjectListState extends State<ProjectList> {
           ),
           TextButton(
             onPressed: () {
-              Provider.of<ProjectProvider>(ctx, listen: false).deleteProject(projectId).then((_) {
+              Provider.of<ProjectProvider>(ctx, listen: false).deleteProject(projectId, context).then((_) {
                 /// Call the onRefresh callback if it exists
                 if (widget.onRefresh != null) {
                   widget.onRefresh!();
@@ -363,7 +363,7 @@ class ProjectListState extends State<ProjectList> {
                         }
 
                         /// Create new board and add members logic
-                        Provider.of<ProjectProvider>(ctx, listen: false).createProject(value).then((_) {
+                        Provider.of<ProjectProvider>(ctx, listen: false).createProject(value, context).then((_) {
                           /// Call the onRefresh callback if it exists
                           if (widget.onRefresh != null) {
                             widget.onRefresh!();
@@ -430,7 +430,7 @@ class ProjectListState extends State<ProjectList> {
                       }
 
                       // Create new board and add members logic
-                      Provider.of<ProjectProvider>(ctx, listen: false).createProject(boardNameController.text).then((boardId) {
+                      Provider.of<ProjectProvider>(ctx, listen: false).createProject(boardNameController.text, context).then((boardId) {
                         /// Für jeden Benutzer in der Liste `selectedUserIds` die Funktion `addBoardMember` aufrufen
                         final selectedUserIds = selectedUsers.map((user) => user.id).toList();
 

@@ -109,5 +109,6 @@
   "create_list": "Liste oluştur",
   "new_list": "Yeni Liste",
   "create_list_left": "Solda yeni liste oluştur",
-  "create_list_right": "Sağda yeni liste oluştur"
+  "create_list_right": "Sağda yeni liste oluştur",
+  "not_enough_rights": "Yeterli yetkiniz yok."
 }

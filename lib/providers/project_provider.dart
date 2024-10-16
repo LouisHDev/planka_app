@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'dart:convert';
 import '../models/planka_project.dart';
 import 'auth_provider.dart';
@@ -38,7 +41,7 @@ class ProjectProvider with ChangeNotifier {
     }
   }
 
-  Future<void> createProject(String newProjectName) async {
+  Future<void> createProject(String newProjectName, BuildContext context) async {
     final url = Uri.parse('https://${authProvider.domain}/api/projects/?name=$newProjectName');
 
     try {
@@ -47,7 +50,14 @@ class ProjectProvider with ChangeNotifier {
         headers: {'Authorization': 'Bearer ${authProvider.token}'},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 403) {
+        showTopSnackBar(
+          Overlay.of(context),
+          CustomSnackBar.error(
+            message: 'not_enough_rights'.tr(),
+          ),
+        );
+      } else if(response.statusCode == 200){
 
       } else {
         debugPrint('Failed to load projects: ${response.statusCode}');
@@ -59,7 +69,7 @@ class ProjectProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteProject(String projectId) async {
+  Future<void> deleteProject(String projectId, BuildContext context) async {
     final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectId');
 
     try {
@@ -68,7 +78,15 @@ class ProjectProvider with ChangeNotifier {
         headers: {'Authorization': 'Bearer ${authProvider.token}'},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 403) {
+        showTopSnackBar(
+          Overlay.of(context),
+          CustomSnackBar.error(
+            message: 'not_enough_rights'.tr(),
+          ),
+        );
+      } else if(response.statusCode == 200){
+
       } else {
         debugPrint('Failed to load projects: ${response.statusCode}');
         throw Exception('Failed to load projects');
@@ -79,7 +97,7 @@ class ProjectProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateProjectName(String projectIdToUpdate, String newProjectName) async {
+  Future<void> updateProjectName(String projectIdToUpdate, String newProjectName, BuildContext context) async {
     final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectIdToUpdate');
 
     try {
@@ -89,7 +107,14 @@ class ProjectProvider with ChangeNotifier {
         headers: {'Authorization': 'Bearer ${authProvider.token}'},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 403) {
+        showTopSnackBar(
+          Overlay.of(context),
+          CustomSnackBar.error(
+            message: 'not_enough_rights'.tr(),
+          ),
+        );
+      } else if(response.statusCode == 200){
 
       } else {
         debugPrint('Failed to update project: ${response.statusCode}');

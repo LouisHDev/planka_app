@@ -109,5 +109,6 @@
   "create_list": "Crear lista",
   "new_list": "Nueva lista",
   "create_list_left": "Crear una nueva lista a la izquierda",
-  "create_list_right": "Crear una nueva lista a la derecha"
+  "create_list_right": "Crear una nueva lista a la derecha",
+  "not_enough_rights": "No tienes suficientes derechos."
 }
