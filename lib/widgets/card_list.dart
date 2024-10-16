@@ -2,6 +2,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editor_plus/widgets/markdown_auto_preview.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:planka_app/models/planka_board.dart';
 import 'package:planka_app/models/planka_card.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
@@ -638,19 +639,20 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
 
     return GestureDetector(
       onTap: () async {
-        ///Disabled time picking inside the fCard because it doesnt work
-        // final DateTime? dateTime = await showOmniDateTimePicker(
-        //     context: context,
-        //     initialDate: dueDate
-        // );
-        //
-        // ///Update Card Due Date
-        // if(dateTime != null) {
-        //   await Provider.of<CardProvider>(context, listen: false).updateCardDueDate(cardId: cardId, newDueDate: dateTime.toString());
-        //
-        //   ///Refresh
-        //   Provider.of<ListProvider>(context, listen: false).fetchLists(boardId: cardId, context: context);
-        // }
+        final DateTime? dateTime = await showOmniDateTimePicker(
+            context: context,
+            initialDate: dueDate
+        );
+
+        ///Update Card Due Date
+        if(dateTime != null) {
+          await Provider.of<CardProvider>(context, listen: false).updateCardDueDate(cardId: cardId, newDueDate: dateTime.toString()).then((_) {
+            // Call the onRefresh callback if it exists
+            if (widget.onRefresh != null) {
+              widget.onRefresh!();
+            }
+          });
+        }
       },
       child: Container(
         margin: const EdgeInsets.only(right: 4.0, bottom: 4.0),
