@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.indigo,
           textTheme: Theme.of(context).textTheme.apply(
-            fontSizeFactor: 0.7,
+            fontSizeFactor: 0.8,
             fontSizeDelta: 2.0,
           ),
         ),
