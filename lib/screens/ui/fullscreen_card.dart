@@ -9,6 +9,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../models/planka_board.dart';
 import '../../providers/card_actions_provider.dart';
+import '../../providers/list_provider.dart';
 
 class FCardScreen extends StatefulWidget {
   PlankaBoard? currentBoard;
@@ -79,7 +80,7 @@ class _FCardScreenState extends State<FCardScreen> with SingleTickerProviderStat
     }
   }
 
-  // Callback method to refresh the lists
+  /// Callback method to refresh the lists
   void _refreshCard() {
     setState(() {
       Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: widget.card!.id, context: context);
@@ -89,63 +90,68 @@ class _FCardScreenState extends State<FCardScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: _isEditingTitle
-            ? Container(
-          color: Colors.transparent,
-          height: kToolbarHeight,
-          alignment: Alignment.centerLeft,
-          child: TextField(
-            controller: _titleController,
-            autofocus: true,
-            onSubmitted: (_) => _saveTitle(widget.card!, context),
-          ),
-        )
-            : GestureDetector(
-          onTap: () => _toggleEditTitle(widget.card!.name),
-          child: Container(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, 'refresh'); // Pass 'refresh' as the result
+        return false; // Prevent default pop action as we handle it manually
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: _isEditingTitle ? Container(
             color: Colors.transparent,
             height: kToolbarHeight,
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(widget.card!.name),
+            child: TextField(
+              controller: _titleController,
+              autofocus: true,
+              onSubmitted: (_) => _saveTitle(widget.card!, context),
+            ),
+          ) : GestureDetector(
+            onTap: () => _toggleEditTitle(widget.card!.name),
+            child: Container(
+              color: Colors.transparent,
+              height: kToolbarHeight,
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(widget.card!.name),
+            ),
           ),
         ),
-      ),
 
-      body: FutureBuilder(
-        future: Future.wait([
-          Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: widget.card!.id, context: context),
-          Provider.of<CardActionsProvider>(context, listen: false).fetchCardComment(widget.card!.id),
-        ]),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('${'error'.tr()}: ${snapshot.error}'));
-          } else {
-            return Consumer2<CardProvider, CardActionsProvider>(
-              builder: (ctx, cardProvider, cardActionsProvider, _) {
-                final fetchedCard = cardProvider.card;
-                final cardActions = cardActionsProvider.cardActions;
+        body: FutureBuilder(
+          future: Future.wait([
+            Provider.of<CardProvider>(context, listen: false).fetchCard(cardId: widget.card!.id, context: context),
+            Provider.of<CardActionsProvider>(context, listen: false).fetchCardComment(widget.card!.id),
+          ]),
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('${'error'.tr()}: ${snapshot.error}'));
+            } else {
+              return Consumer2<CardProvider, CardActionsProvider>(
+                builder: (ctx, cardProvider, cardActionsProvider, _) {
+                  final fetchedCard = cardProvider.card;
+                  final cardActions = cardActionsProvider.cardActions;
 
-                if (fetchedCard == null) {
-                  return Center(child: Text('card_not_found'.tr()));
-                } else {
-                  return CardList(
-                    fetchedCard,
-                    previewCard: widget.card!,
-                    cardActions: cardActions,
-                    onRefresh: _refreshCard,
-                    currentBoard: widget.currentBoard!,
-                  );
-                }
-              },
-            );
-          }
-        },
+                  if (fetchedCard == null) {
+                    return Center(child: Text('card_not_found'.tr()));
+                  } else {
+                    return CardList(
+                      fetchedCard,
+                      previewCard: widget.card!,
+                      cardActions: cardActions,
+                      onRefresh: _refreshCard,
+                      currentBoard: widget.currentBoard!,
+                    );
+                  }
+                },
+              );
+            }
+          },
+        ),
       ),
     );
+
   }
 }

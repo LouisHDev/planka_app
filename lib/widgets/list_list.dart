@@ -72,6 +72,25 @@ class _ListListState extends State<ListList> {
     }
   }
 
+  void _openFCardScreen(PlankaCard selectedCard) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FCardScreen(
+          currentBoard: widget.currentBoard,
+          card: selectedCard, // Pass the card to edit
+        ),
+      ),
+    );
+
+    // Check if the result indicates a refresh is needed
+    if (result == 'refresh') {
+      if (widget.onRefresh != null) {
+        widget.onRefresh!();
+      }
+    }
+  }
+
   void createListInBetween(String name, num currentPosition, int index, bool toLeft) {
     // Determine the position based on the neighboring lists
     double newPosition;
@@ -403,27 +422,13 @@ class _ListListState extends State<ListList> {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => FCardScreen(
-                        currentBoard: widget.currentBoard,
-                        card: card,
-                      )
-                  ),
-                );
+                _openFCardScreen(card);
               },
             ),
 
           ListTile(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => FCardScreen(
-                      currentBoard: widget.currentBoard,
-                      card: card,
-                    )
-                  ),
-                );
+                _openFCardScreen(card);
               },
 
               /// Labels and Card Name
