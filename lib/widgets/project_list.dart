@@ -33,7 +33,7 @@ class ProjectListState extends State<ProjectList> {
 
   @override
   Widget build(BuildContext context) {
-    // Check if projects are null or empty
+    /// Check if projects are null or empty
     if (widget.projects.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -44,7 +44,7 @@ class ProjectListState extends State<ProjectList> {
         itemCount: widget.projects.length + 1,
         itemBuilder: (ctx, index) {
           if (index == widget.projects.length) {
-            // Last item: Show text input to add new project
+            /// Last item: Show text input to add new project
             if (_isAddingNewProject) {
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
