@@ -119,7 +119,7 @@ class BoardListState extends State<BoardList> {
                               ),
                               if (users.length > 3)
                                 const Text(
-                                  '...',
+                                  '  ...',
                                   style: TextStyle(color: Colors.white),
                                 ),
                             ],
@@ -144,10 +144,10 @@ class BoardListState extends State<BoardList> {
 
     List<PlankaUser> selectedUsers = [];
 
-    // Prüfe, ob Benutzer dem Board zugewiesen sind
+    /// Check if users are assigned to the board
     selectedUsers = widget.usersPerBoard[board.id] ?? [];
 
-    // Fetch all users using UserProvider before showing the dialog
+    /// Fetch all users using UserProvider before showing the dialog
     Provider.of<UserProvider>(context, listen: false).fetchUsers().then((_) {
       showDialog(
         context: context,
@@ -193,9 +193,7 @@ class BoardListState extends State<BoardList> {
                         const SizedBox(height: 20),
 
                         // Member Selection
-                        Text('members'.tr(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold)),
+                        Text('members'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 10),
 
                     SizedBox(
@@ -206,7 +204,7 @@ class BoardListState extends State<BoardList> {
                         itemCount: allUsers.length,
                         itemBuilder: (context, index) {
                           final user = allUsers[index];
-                          // Überprüfe, ob der Benutzer in `selectedUsers` ist
+                          /// Check if user is in "selectedUsers"
                           final bool isSelected = selectedUsers.any((selectedUser) => selectedUser.id == user.id);
 
                           return CheckboxListTile(
