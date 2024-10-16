@@ -72,6 +72,48 @@ class _ListListState extends State<ListList> {
     }
   }
 
+  void createListInBetween(String name, num currentPosition, int index, bool toLeft) {
+    // Determine the position based on the neighboring lists
+    double newPosition;
+
+    if (toLeft) {
+      // Create list to the left: take middle position between left and current
+      if (index > 0) {
+        final leftPosition = widget.lists[index - 1].position;
+        newPosition = (leftPosition + currentPosition) / 2;
+      } else {
+        // If it's the first list, place it at a smaller position than current
+        newPosition = currentPosition - 1000; // Arbitrary value for the leftmost
+      }
+    } else {
+      // Create list to the right: take middle position between current and right
+      if (index < widget.lists.length - 1) {
+        final rightPosition = widget.lists[index + 1].position;
+        newPosition = (currentPosition + rightPosition) / 2;
+      } else {
+        // If it's the last list, place it at a larger position than current
+        newPosition = currentPosition + 1000; // Arbitrary value for the rightmost
+      }
+    }
+
+    // Call your function to create the new list with the calculated position
+    _createList(name, newPosition.toString());
+  }
+
+  void _createList(String newName, String position) {
+    Provider.of<ListProvider>(context, listen: false).createList(
+      newListName: newName,
+      boardId: widget.currentBoard.id,
+      context: context,
+      newPos: position,
+    ).then((_) {
+      /// Call the onRefresh callback if it exists
+      if (widget.onRefresh != null) {
+        widget.onRefresh!();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ListProvider>(
@@ -201,8 +243,21 @@ class _ListListState extends State<ListList> {
                       child: PopupMenuButton<int>(
                         icon: const Icon(Icons.menu_rounded),
                         onSelected: (value) async {
-                          if(value == 5) {
+
+                          ///Delete List (Confirmation Dialog)
+                          if(value == 7) {
                             _showDeleteConfirmationDialog(context, list);
+                          }
+
+                          if (value == 5) {
+                            /// Create list to the left
+                            final index = widget.lists.indexOf(list);
+                            createListInBetween('new_list'.tr(), list.position, index, true);
+                          }
+                          if (value == 6) {
+                            /// Create list to the right
+                            final index = widget.lists.indexOf(list);
+                            createListInBetween('new_list'.tr(), list.position, index, false);
                           }
                         },
                         itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
@@ -222,6 +277,15 @@ class _ListListState extends State<ListList> {
                           const PopupMenuDivider(),
                           PopupMenuItem<int>(
                             value: 5,
+                            child: Text('create_list_left'.tr()),
+                          ),
+                          PopupMenuItem<int>(
+                            value: 6,
+                            child: Text('create_list_right'.tr()),
+                          ),
+                          const PopupMenuDivider(),
+                          PopupMenuItem<int>(
+                            value: 7,
                             child: Text('delete_list'.tr()),
                           ),
                         ],
@@ -242,10 +306,10 @@ class _ListListState extends State<ListList> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // When tapping, switch to editing mode
+                    /// When tapping, switch to editing mode
                     setState(() {
                       isEditingNewCardName = true;
-                      // Focus the TextField when editing mode is enabled
+                      /// Focus the TextField when editing mode is enabled
                       _focusNodesListNewCard[list.id]!.requestFocus();
                     });
                   },

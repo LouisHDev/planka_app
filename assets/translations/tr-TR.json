@@ -97,5 +97,8 @@
     "enter_board_name": "Pano Adını Girin"
   },
   "create": "Oluştur",
-  "create_list": "Liste Oluştur"
+  "create_list": "Liste oluştur",
+  "new_list": "Yeni Liste",
+  "create_list_left": "Solda yeni liste oluştur",
+  "create_list_right": "Sağda yeni liste oluştur"
 }

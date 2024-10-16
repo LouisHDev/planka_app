@@ -97,5 +97,8 @@
     "enter_board_name": "Introduce el nombre del tablero"
   },
   "create": "Crear",
-  "create_list": "Crear lista"
+  "create_list": "Crear lista",
+  "new_list": "Nueva lista",
+  "create_list_left": "Crear una nueva lista a la izquierda",
+  "create_list_right": "Crear una nueva lista a la derecha"
 }

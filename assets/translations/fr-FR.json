@@ -97,5 +97,8 @@
     "enter_board_name": "Entrez le nom du tableau"
   },
   "create": "Créer",
-  "create_list": "Créer une liste"
+  "create_list": "Créer une liste",
+  "new_list": "Nouvelle liste",
+  "create_list_left": "Créer une nouvelle liste à gauche",
+  "create_list_right": "Créer une nouvelle liste à droite"
 }

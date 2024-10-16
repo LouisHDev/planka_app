@@ -97,5 +97,8 @@
     "enter_board_name": "Gib den Board Namen ein"
   },
   "create": "Erstellen",
-  "create_list": "Liste erstellen"
+  "create_list": "Liste erstellen",
+  "new_list": "Neue Liste",
+  "create_list_left": "Links eine neue Liste erstellen",
+  "create_list_right": "Rechts eine neue Liste erstellen"
 }

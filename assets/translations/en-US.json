@@ -97,5 +97,8 @@
     "enter_board_name": "Enter Board Name"
   },
   "create": "Create",
-  "create_list": "Create List"
+  "create_list": "Create List",
+  "new_list": "New list",
+  "create_list_left": "Create a new list on the left",
+  "create_list_right": "Create a new list on the right"
 }
