@@ -64,6 +64,10 @@
     "0": "Supprimer le tableau",
     "1": "Êtes-vous sûr de vouloir supprimer ce tableau ?"
   },
+  "delete_project_confirmation": {
+    "0": "Supprimer le projet",
+    "1": "Êtes-vous sûr de vouloir supprimer ce projet ?"
+  },
   "posted_on": "Posté le",
   "comment_not_empty": "Le commentaire ne peut pas être vide",
   "comments": "Commentaires",
@@ -95,6 +99,11 @@
     "create_new_board": "Créer un nouveau tableau",
     "board_name": "Nom du tableau",
     "enter_board_name": "Entrez le nom du tableau"
+  },
+  "create_project_dialog": {
+    "create_new_project": "Créer un nouveau projet",
+    "project_name": "Nom du projet",
+    "enter_project_name": "Entrez le nom du projet"
   },
   "create": "Créer",
   "create_list": "Créer une liste",

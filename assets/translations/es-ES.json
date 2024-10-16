@@ -64,6 +64,10 @@
     "0": "Eliminar tablero",
     "1": "¿Estás seguro de que quieres eliminar este tablero?"
   },
+  "delete_project_confirmation": {
+    "0": "Eliminar proyecto",
+    "1": "¿Estás seguro de que deseas eliminar este proyecto?"
+  },
   "posted_on": "Publicado el",
   "comment_not_empty": "El comentario no puede estar vacío",
   "comments": "Comentarios",
@@ -95,6 +99,11 @@
     "create_new_board": "Crear un nuevo tablero",
     "board_name": "Nombre del tablero",
     "enter_board_name": "Introduce el nombre del tablero"
+  },
+  "create_project_dialog": {
+    "create_new_project": "Crear nuevo proyecto",
+    "project_name": "Nombre del proyecto",
+    "enter_project_name": "Introduce el nombre del proyecto"
   },
   "create": "Crear",
   "create_list": "Crear lista",

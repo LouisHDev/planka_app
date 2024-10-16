@@ -64,6 +64,10 @@
     "0": "Delete board",
     "1": "Are you sure you want to delete this board?"
   },
+  "delete_project_confirmation": {
+    "0": "Delete project",
+    "1": "Are you sure you want to delete this project?"
+  },
   "posted_on": "Posted on",
   "comment_not_empty": "Comment cannot be empty",
   "comments": "Comments",
@@ -95,6 +99,11 @@
     "create_new_board": "Create New Board",
     "board_name": "Board Name",
     "enter_board_name": "Enter Board Name"
+  },
+  "create_project_dialog": {
+    "create_new_project": "Create new project",
+    "project_name": "Project name",
+    "enter_project_name": "Enter the project name"
   },
   "create": "Create",
   "create_list": "Create List",

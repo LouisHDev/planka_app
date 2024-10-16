@@ -3,7 +3,7 @@ import 'package:planka_app/models/planka_user.dart';
 
 class PlankaProject {
   final String id;
-  final String name;
+  late final String name;
   final List<PlankaBoard> boards;
   final List<PlankaUser> users;
   final Map<String, dynamic>? background;

@@ -48,13 +48,27 @@ class ProjectProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        final projectsJson = responseData['items'] as List<dynamic>;
-        final includedData = responseData['included'];
 
-        _projects = projectsJson.map((projectJson) => PlankaProject.fromJson(projectJson, includedData)).toList();
+      } else {
+        debugPrint('Failed to load projects: ${response.statusCode}');
+        throw Exception('Failed to load projects');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to create project');
+    }
+  }
 
-        notifyListeners();
+  Future<void> deleteProject(String projectId) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectId');
+
+    try {
+      final response = await http.delete(
+        url,
+        headers: {'Authorization': 'Bearer ${authProvider.token}'},
+      );
+
+      if (response.statusCode == 200) {
       } else {
         debugPrint('Failed to load projects: ${response.statusCode}');
         throw Exception('Failed to load projects');
@@ -65,29 +79,26 @@ class ProjectProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteProject(String newProjectName) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/projects/?name=$newProjectName');
+  Future<void> updateProjectName(String projectIdToUpdate, String newProjectName) async {
+    final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectIdToUpdate');
 
     try {
-      final response = await http.delete(
+      final response = await http.patch(
         url,
+        body: json.encode({'name': newProjectName}),
         headers: {'Authorization': 'Bearer ${authProvider.token}'},
       );
 
       if (response.statusCode == 200) {
-        // final responseData = json.decode(response.body);
-        // final projectsJson = responseData['items'] as List<dynamic>;
-        // final includedData = responseData['included'];
-        //
-        // _projects = projectsJson.map((projectJson) => PlankaProject.fromJson(projectJson, includedData)).toList();
-        // notifyListeners();
+
       } else {
-        debugPrint('Failed to load projects: ${response.statusCode}');
-        throw Exception('Failed to load projects');
+        debugPrint('Failed to update project: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+        throw Exception('Failed to update project: ${response.reasonPhrase}');
       }
     } catch (error) {
       debugPrint('Error: $error');
-      throw Exception('Failed to load projects');
+      throw Exception('Failed to update project');
     }
   }
 }

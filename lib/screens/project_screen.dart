@@ -19,6 +19,13 @@ class _ProjectScreenState extends State<ProjectScreen> with SingleTickerProvider
   late Animation<double> _animation;
   late AnimationController _animationController;
 
+  // Callback method to refresh the lists
+  void _refreshProjects() {
+    setState(() {
+      Provider.of<ProjectProvider>(context, listen: false).fetchProjects();
+    });
+  }
+
   @override
   void initState(){
 
@@ -109,7 +116,7 @@ class _ProjectScreenState extends State<ProjectScreen> with SingleTickerProvider
           builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting
           ? const Center(child: CircularProgressIndicator())
               : Consumer<ProjectProvider>(
-          builder: (ctx, projectProvider, _) => ProjectList(projectProvider.projects),
+          builder: (ctx, projectProvider, _) => ProjectList(projectProvider.projects, onRefresh: _refreshProjects),
           ),
         ),
     );

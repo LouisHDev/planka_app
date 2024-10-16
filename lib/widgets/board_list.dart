@@ -359,7 +359,6 @@ class BoardListState extends State<BoardList> {
                           projectId: widget.currentProject.id,
                           context: context,
                           newPos: (widget.boards.last.position + 1000).toString(),
-                          // selectedUserIds: selectedUsers.map((user) => user.id).toList(),
                         ).then((_) {
                           // Call the onRefresh callback if it exists
                           if (widget.onRefresh != null) {

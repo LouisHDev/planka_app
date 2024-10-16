@@ -64,6 +64,10 @@
     "0": "Board löschen",
     "1": "Bist du dir sicher, dass du dieses Board löschen möchtest?"
   },
+  "delete_project_confirmation": {
+    "0": "Projekt löschen",
+    "1": "Bist du dir sicher, dass du dieses Projekt löschen möchtest?"
+  },
   "posted_on": "Erstellt am",
   "comment_not_empty": "Kommentar darf nicht leer sein",
   "comments": "Kommentare",
@@ -95,6 +99,11 @@
     "create_new_board": "Neues Board erstellen",
     "board_name": "Board Name",
     "enter_board_name": "Gib den Board Namen ein"
+  },
+  "create_project_dialog": {
+    "create_new_project": "Neues Projekt erstellen",
+    "project_name": "Name des Projektes",
+    "enter_project_name": "Gib den Namen des Projektes ein"
   },
   "create": "Erstellen",
   "create_list": "Liste erstellen",

@@ -64,6 +64,10 @@
     "0": "Elimina bacheca",
     "1": "Sei sicuro di voler eliminare questa bacheca?"
   },
+  "delete_project_confirmation": {
+    "0": "Elimina progetto",
+    "1": "Sei sicuro di voler eliminare questo progetto?"
+  },
   "posted_on": "Pubblicato il",
   "comment_not_empty": "Il commento non può essere vuoto",
   "comments": "Commenti",
@@ -95,6 +99,11 @@
     "create_new_board": "Crea una nuova bacheca",
     "board_name": "Nome della bacheca",
     "enter_board_name": "Inserisci il nome della bacheca"
+  },
+  "create_project_dialog": {
+    "create_new_project": "Crea nuovo progetto",
+    "project_name": "Nome del progetto",
+    "enter_project_name": "Inserisci il nome del progetto"
   },
   "create": "Crea",
   "create_list": "Crea lista",

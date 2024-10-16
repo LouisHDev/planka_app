@@ -64,6 +64,10 @@
     "0": "Panoyu sil",
     "1": "Bu panoyu silmek istediğinizden emin misiniz?"
   },
+  "delete_project_confirmation": {
+    "0": "Projeyi sil",
+    "1": "Bu projeyi silmek istediğinizden emin misiniz?"
+  },
   "posted_on": "Yayınlanma tarihi",
   "comment_not_empty": "Yorum boş olamaz",
   "comments": "Yorumlar",
@@ -95,6 +99,11 @@
     "create_new_board": "Yeni Pano Oluştur",
     "board_name": "Pano Adı",
     "enter_board_name": "Pano Adını Girin"
+  },
+  "create_project_dialog": {
+    "create_new_project": "Yeni proje oluştur",
+    "project_name": "Proje adı",
+    "enter_project_name": "Proje adını girin"
   },
   "create": "Oluştur",
   "create_list": "Liste oluştur",
