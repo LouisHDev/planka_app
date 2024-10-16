@@ -15,7 +15,7 @@ class UserProvider with ChangeNotifier {
   PlankaUser get specificUser => _specificUser;
 
   Future<void> fetchUsers() async {
-    final url = Uri.parse('https://${authProvider.domain}/api/users/');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/users/');
 
     try {
       final response = await http.get(
@@ -61,7 +61,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> fetchSpecificUser(String userId) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/users/$userId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/users/$userId');
 
     try {
       final response = await http.get(

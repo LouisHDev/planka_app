@@ -18,7 +18,7 @@ class CardProvider with ChangeNotifier {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
       final response = await http.get(
         url,
         headers: {'Authorization': 'Bearer ${authProvider.token}'},
@@ -46,7 +46,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> updateCardTitle({required BuildContext context, required String cardId, required String newCardTitle}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       final response = await http.patch(
@@ -69,7 +69,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> updateStopwatch({required BuildContext context, required String cardId, required int stopwatchTotal, String? stopwatchStartedAt,}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       // Construct the request body
@@ -101,7 +101,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> deleteStopwatch({required BuildContext context, required String cardId,}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       // Construct the request body
@@ -132,7 +132,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> updateCardDueDate({required String cardId, required String newDueDate}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       final response = await http.patch(
@@ -155,7 +155,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> addCardLabel({required BuildContext context, required String cardId, required String labelId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/labels');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/labels');
 
     try {
       // Fetch the current card data
@@ -184,7 +184,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> addCardMember({required BuildContext context, required String cardId, required String userId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/memberships');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/memberships');
 
     try {
       // Fetch the current card data
@@ -213,7 +213,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> removeCardMember({required BuildContext context, required String cardId, required String userId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/memberships');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/memberships');
 
     try {
       // Fetch the current card data
@@ -242,7 +242,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> removeCardLabel({required BuildContext context, required String cardId, required String labelId,}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/labels/$labelId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/labels/$labelId');
 
     try {
       // Fetch the current card data
@@ -267,7 +267,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> deleteCard({required BuildContext context, required String cardId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       await http.delete(
@@ -285,7 +285,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> updateCardDescription({required BuildContext context, required String cardId, required String newCardDesc}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       final response = await http.patch(
@@ -308,7 +308,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> updateCardCoverAttachId({required BuildContext context, required String cardId, required String? newCardCoverAttachId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       final response = await http.patch(
@@ -333,7 +333,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> addTask({required BuildContext context, required String cardId, required String taskText, required String newPos}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/tasks/?position=$newPos');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/tasks/?position=$newPos');
 
     try {
       final response = await http.post(
@@ -356,7 +356,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> removeTask({required BuildContext context, required String taskId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/tasks/$taskId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/tasks/$taskId');
 
     try {
       final response = await http.delete(
@@ -378,7 +378,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> toggleTaskCompletion({required BuildContext context, required String taskId, required bool isCompleted}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/tasks/$taskId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/tasks/$taskId');
 
     try {
       final response = await http.patch(
@@ -401,7 +401,7 @@ class CardProvider with ChangeNotifier {
   }
 
   Future<void> reorderTask({required BuildContext context, required String taskId, required int newPosition,}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/tasks/$taskId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/tasks/$taskId');
 
     try {
       final response = await http.patch(
@@ -430,7 +430,7 @@ class CardProvider with ChangeNotifier {
 
   Future<void> renameTask({required BuildContext context, required String taskId, required String newTaskName,}) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final url = Uri.parse('https://${authProvider.domain}/api/tasks/$taskId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/tasks/$taskId');
 
     try {
       final response = await http.patch(

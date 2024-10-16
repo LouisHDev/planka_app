@@ -42,7 +42,7 @@ class ProjectProvider with ChangeNotifier {
   }
 
   Future<void> createProject(String newProjectName, BuildContext context) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/projects/?name=$newProjectName');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/projects/?name=$newProjectName');
 
     try {
       final response = await http.post(
@@ -70,7 +70,7 @@ class ProjectProvider with ChangeNotifier {
   }
 
   Future<void> deleteProject(String projectId, BuildContext context) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/projects/$projectId');
 
     try {
       final response = await http.delete(
@@ -98,7 +98,7 @@ class ProjectProvider with ChangeNotifier {
   }
 
   Future<void> updateProjectName(String projectIdToUpdate, String newProjectName, BuildContext context) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectIdToUpdate');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/projects/$projectIdToUpdate');
 
     try {
       final response = await http.patch(

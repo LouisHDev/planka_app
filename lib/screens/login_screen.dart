@@ -57,6 +57,12 @@ class _LoginScreenState extends State<LoginScreen> {
     },
   ];
 
+  String _selectedProtocol = 'https';
+
+  // List of protocol options
+  final List<String> _protocolOptions = ['https', 'http', 'localhost'];
+
+
   @override
   void initState() {
     super.initState();
@@ -64,7 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _tryAutoLogin() async {
-    await Provider.of<AuthProvider>(context, listen: false).tryAutoLogin();
+    AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
+
+    _selectedProtocol = provider.selectedProtocol;
+
+    await provider.tryAutoLogin();
     if (Provider.of<AuthProvider>(context, listen: false).token.isNotEmpty) {
       Navigator.of(context).pushReplacementNamed('/projects');
     }
@@ -92,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_validateAndFocusFields()) {
       try {
         await Provider.of<AuthProvider>(context, listen: false).login(
+          _selectedProtocol,
           _usernameController.text,
           _passwordController.text,
           _domainController.text,
@@ -152,11 +163,35 @@ class _LoginScreenState extends State<LoginScreen> {
               textInputAction: TextInputAction.done,
               onSubmitted: (result) => _login(),
             ),
-            const SizedBox(height: 20),
+
+            DropdownButton<String>(
+              value: _selectedProtocol,
+              isExpanded: true,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.black),
+              underline: Container(
+                height: 2,
+                color: Colors.indigo,
+              ),
+              onChanged: (String? newProtocol) {
+                setState(() {
+                  _selectedProtocol = newProtocol!;
+                });
+              },
+              items: _protocolOptions.map<DropdownMenuItem<String>>((protocol) {
+                return DropdownMenuItem<String>(
+                  value: protocol,
+                  child: Text(protocol.toUpperCase()),
+                );
+              }).toList(),
+            ),
 
             // Language dropdown
             DropdownButton<String>(
               value: _selectedLanguage,
+              isExpanded: true,
               icon: const Icon(Icons.keyboard_arrow_down),
               iconSize: 24,
               elevation: 16,

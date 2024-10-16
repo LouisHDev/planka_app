@@ -13,7 +13,7 @@ class CardActionsProvider with ChangeNotifier {
   List<PlankaCardAction> get cardActions => _cardActions;
 
   Future<void> fetchCardComment(String cardId) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/actions');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/actions');
 
     try {
       final response = await http.get(
@@ -42,7 +42,7 @@ class CardActionsProvider with ChangeNotifier {
   }
 
   Future<void> deleteComment(String commentId) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/comment-actions/$commentId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/comment-actions/$commentId');
 
     try {
       final response = await http.delete(
@@ -63,7 +63,7 @@ class CardActionsProvider with ChangeNotifier {
   }
 
   Future<void> createComment(String cardId, String newCommentBody) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/comment-actions');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/comment-actions');
 
     try {
       final response = await http.post(
@@ -86,7 +86,7 @@ class CardActionsProvider with ChangeNotifier {
   }
 
   Future<void> updateComment(String commentId, String newCommentBody) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/comment-actions/$commentId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/comment-actions/$commentId');
 
     try {
       final response = await http.patch(

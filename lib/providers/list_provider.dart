@@ -21,7 +21,7 @@ class ListProvider with ChangeNotifier {
 
   Future<void> fetchLists({required String boardId, required BuildContext context}) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/boards/$boardId');
 
       final response = await http.get(
         url,
@@ -148,7 +148,7 @@ class ListProvider with ChangeNotifier {
   }
 
   Future<void> reorderCard({required BuildContext context, required String cardId, required int newPosition, required String newListId,}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId');
 
     try {
       final response = await http.patch(
@@ -176,7 +176,7 @@ class ListProvider with ChangeNotifier {
 
   Future<void> createLabelOnBoard({required String labelName, required String boardId, required BuildContext context}) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId/labels?position=0');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/boards/$boardId/labels?position=0');
 
       await http.post(
           url,
@@ -202,7 +202,7 @@ class ListProvider with ChangeNotifier {
     required String boardId,
     required int newPosition,
   }) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/lists/$listId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/lists/$listId');
 
     try {
       final response = await http.patch(
@@ -226,7 +226,7 @@ class ListProvider with ChangeNotifier {
 
   Future<void> createList({required String newListName, required String boardId, required BuildContext context, required String newPos}) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId/lists/?position=$newPos');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/boards/$boardId/lists/?position=$newPos');
 
       await http.post(
           url,
@@ -244,7 +244,7 @@ class ListProvider with ChangeNotifier {
   }
 
   Future<bool> deleteList(String listIdToDelete) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/lists/$listIdToDelete');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/lists/$listIdToDelete');
 
     try {
       final response = await http.delete(
@@ -279,7 +279,7 @@ class ListProvider with ChangeNotifier {
   }
 
   Future<bool> updateListName(PlankaList list, String newListName) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/lists/${list.id}');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/lists/${list.id}');
 
     try {
       final response = await http.patch(
@@ -320,7 +320,7 @@ class ListProvider with ChangeNotifier {
 
   Future<bool> createCard({required String newCardName, required String listId, required BuildContext context, required String boardId, required String newPos}) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/lists/$listId/cards/?position=$newPos');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/lists/$listId/cards/?position=$newPos');
 
       final response = await http.post(
           url,
@@ -349,7 +349,7 @@ class ListProvider with ChangeNotifier {
     required String newPos,
   }) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/lists/$listId/cards/?position=$newPos');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/lists/$listId/cards/?position=$newPos');
 
       final response = await http.post(
         url,

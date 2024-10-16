@@ -9,18 +9,22 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 class AuthProvider with ChangeNotifier {
   String _token = '';
   String _domain = '';
+  String _selectedProtocol = 'https';
 
   String get token => _token;
   String get domain => _domain;
+  String get selectedProtocol => _selectedProtocol;
 
-  Future<void> login(String emailOrUsername, String password, String domain, BuildContext context) async {
-    // Remove "https://" if it exists and trim any whitespace
-    _domain = domain.replaceFirst(RegExp(r'^https://'), '').trim();
+  Future<void> login(String selectedProtocol, String emailOrUsername, String password, String domain, BuildContext context) async {
+    _selectedProtocol = selectedProtocol;
+
+    // Remove 'https://', 'http://', or 'localhost://' from the beginning of the domain
+    _domain = domain.replaceFirst(RegExp(r'^(https://|http://|localhost://)'), '').trim();
     final cleanedEmailOrUsername = emailOrUsername.trim();
     final cleanedPassword = password.trim();
 
     // Construct the URL
-    final url = Uri.parse('https://$_domain/api/access-tokens');
+    final url = Uri.parse('$selectedProtocol://$_domain/api/access-tokens');
 
     try {
       final response = await http.post(
@@ -56,7 +60,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> logout(BuildContext context) async {
-    final url = Uri.parse('https://$_domain/api/access-tokens/me');
+    final url = Uri.parse('$selectedProtocol://$_domain/api/access-tokens/me');
 
     try {
       final response = await http.delete(
@@ -67,6 +71,7 @@ class AuthProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         _token = '';
         _domain = '';
+        _selectedProtocol = 'https';
         await _clearCredentials(); // Clear credentials on logout
         notifyListeners();
         return true;
@@ -83,22 +88,25 @@ class AuthProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', _token);
     await prefs.setString('domain', _domain);
+    await prefs.setString('selectedProtocol', _selectedProtocol);
   }
 
   Future<void> _clearCredentials() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
     await prefs.remove('domain');
+    await prefs.remove('selectedProtocol');
   }
 
   Future<void> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('token') || !prefs.containsKey('domain')) {
+    if (!prefs.containsKey('token') || !prefs.containsKey('domain') || !prefs.containsKey('selectedProtocol')) {
       return;
     }
 
     _token = prefs.getString('token')!;
     _domain = prefs.getString('domain')!;
+    _selectedProtocol = prefs.getString('selectedProtocol')!;
     notifyListeners();
   }
 }

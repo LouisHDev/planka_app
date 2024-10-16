@@ -24,7 +24,7 @@ class BoardProvider with ChangeNotifier {
 
   Future<void> fetchBoards({required String projectId, required BuildContext context}) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectId');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/projects/$projectId');
 
       final response = await http.get(
           url,
@@ -58,7 +58,7 @@ class BoardProvider with ChangeNotifier {
 
   Future<void> fetchBoardUsersAndMemberships({required String boardId, required BuildContext context}) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/boards/$boardId');
 
       final response = await http.get(url, headers: {'Authorization': 'Bearer ${authProvider.token}'});
 
@@ -108,7 +108,7 @@ class BoardProvider with ChangeNotifier {
     required String newPos,
   }) async {
     try {
-      final url = Uri.parse('https://${authProvider.domain}/api/projects/$projectId/boards/?position=$newPos');
+      final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/projects/$projectId/boards/?position=$newPos');
 
       final response = await http.post(
         url,
@@ -134,7 +134,7 @@ class BoardProvider with ChangeNotifier {
   }
 
   Future<void> deleteBoard(String boardIdToDelete, String projectId, BuildContext context) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardIdToDelete');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/boards/$boardIdToDelete');
 
     try {
       final response = await http.delete(
@@ -161,7 +161,7 @@ class BoardProvider with ChangeNotifier {
   }
 
   Future<bool> updateBoardName(String boardIdToUpdate, String newBoardName) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardIdToUpdate');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/boards/$boardIdToUpdate');
 
     try {
       final response = await http.patch(
@@ -199,7 +199,7 @@ class BoardProvider with ChangeNotifier {
   }
 
   Future<void> addBoardMember({required BuildContext context, required String boardId, required String userId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/boards/$boardId/memberships');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/boards/$boardId/memberships');
 
     try {
       final response = await http.post(
@@ -229,7 +229,7 @@ class BoardProvider with ChangeNotifier {
   }
 
   Future<void> removeBoardMember({required BuildContext context, required String id}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/board-memberships/$id');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/board-memberships/$id');
 
     try {
       final response = await http.delete(

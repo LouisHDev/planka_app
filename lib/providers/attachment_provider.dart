@@ -10,7 +10,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:planka_app/models/card_models/planka_attachment.dart';
-import 'package:planka_app/providers/card_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -108,7 +107,7 @@ class AttachmentProvider with ChangeNotifier {
   }
 
   Future<void> deleteAttachment({required BuildContext context, required String attachmentId}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/attachments/$attachmentId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/attachments/$attachmentId');
 
     try {
       // Fetch the current card data
@@ -137,7 +136,7 @@ class AttachmentProvider with ChangeNotifier {
     required String cardId,
     required File file,
   }) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/cards/$cardId/attachments');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/cards/$cardId/attachments');
 
     showTopSnackBar(
       Overlay.of(context),
@@ -187,7 +186,7 @@ class AttachmentProvider with ChangeNotifier {
   }
 
   Future<void> renameAttachment({required BuildContext context, required String cardId, required String newAttachName, required String attachId,}) async {
-    final url = Uri.parse('https://${authProvider.domain}/api/attachments/$attachId');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/attachments/$attachId');
 
     try {
       final response = await http.patch(
