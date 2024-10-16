@@ -668,10 +668,12 @@ class _ListListState extends State<ListList> {
 
         ///Update Card Due Date
         if(dateTime != null) {
-          await Provider.of<CardProvider>(context, listen: false).updateCardDueDate(cardId: cardId, newDueDate: dateTime.toString());
-
-          ///Refresh
-          Provider.of<ListProvider>(context, listen: false).fetchLists(boardId: widget.currentBoard.id, context: context);
+          await Provider.of<CardProvider>(context, listen: false).updateCardDueDate(cardId: cardId, newDueDate: dateTime.toString()).then((_) {
+            // Call the onRefresh callback if it exists
+            if (widget.onRefresh != null) {
+              widget.onRefresh!();
+            }
+          });
         }
       },
       child: Container(
