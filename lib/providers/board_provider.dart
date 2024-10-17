@@ -101,12 +101,7 @@ class BoardProvider with ChangeNotifier {
     }
   }
 
-  Future<String> createBoard({
-    required String newBoardName,
-    required String projectId,
-    required BuildContext context,
-    required String newPos,
-  }) async {
+  Future<String> createBoard({required String newBoardName, required String projectId, required BuildContext context, required String newPos,}) async {
     try {
       final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/projects/$projectId/boards/?position=$newPos');
 
@@ -255,4 +250,21 @@ class BoardProvider with ChangeNotifier {
     }
   }
 
+  Future<void> updateLabel(String labelIdToUpdate, String newLabelName, String labelColor) async {
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/labels/$labelIdToUpdate');
+
+    try {
+      await http.patch(
+        url,
+        body: json.encode({'name': newLabelName, 'color': labelColor}),
+        headers: {'Authorization': 'Bearer ${authProvider.token}'},
+      );
+
+      notifyListeners();
+
+    } catch (error) {
+      debugPrint('Error: $error');
+      throw Exception('Failed to update board');
+    }
+  }
 }

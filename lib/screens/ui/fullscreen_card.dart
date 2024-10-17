@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:planka_app/models/planka_card.dart';
+import 'package:planka_app/providers/board_provider.dart';
 import 'package:planka_app/providers/card_provider.dart';
 import 'package:planka_app/widgets/card_list.dart';
 import 'package:provider/provider.dart';

@@ -82,7 +82,8 @@
   "unknown_label": "Bilinmeyen etiket",
   "labels": {
     "0": "Etiket adı",
-    "2": "Bu isim zaten mevcut."
+    "2": "Bu isim zaten mevcut.",
+    "3": "Etiketi düzenle"
   },
   "click_me_to_add_description": "Açıklama eklemek için tıklayın.",
   "stopwatch_controls": {

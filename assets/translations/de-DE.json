@@ -82,7 +82,8 @@
   "unknown_label": "Unbekanntes Label",
   "labels": {
     "0": "Label name",
-    "2": "Der Name existiert bereits."
+    "2": "Der Name existiert bereits.",
+    "3": "Label bearbeiten"
   },
   "click_me_to_add_description": "Klicke mich um eine Beschreibung hinzuzufügen.",
   "stopwatch_controls": {

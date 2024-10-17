@@ -82,7 +82,8 @@
   "unknown_label": "Etiqueta desconocida",
   "labels": {
     "0": "Nombre de la etiqueta",
-    "2": "El nombre ya existe."
+    "2": "El nombre ya existe.",
+    "3": "Editar etiqueta"
   },
   "click_me_to_add_description": "Haz clic aquí para añadir una descripción.",
   "stopwatch_controls": {

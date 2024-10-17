@@ -61,6 +61,9 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
   Map<String, String> dueDateCache = {};
 
   Map<String, Color> labelColors = {};
+  late Color selectedColor; ///for color picker when updating label color
+  late String selectedColorName; ///for color picker when updating label color
+  final TextEditingController _labelTitleController = TextEditingController();
   
   @override
   void initState() {
@@ -251,12 +254,104 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
     );
   }
 
-  void _showLabelBottomSheet(
-      BuildContext context,
-      List<PlankaLabel>? allLabels,
-      List<CardLabel> cardLabels,
-      String cardId, // Card ID is already included
-      ) {
+  void _handleLabelUpdate(String labelId){
+    if(_labelTitleController.text != ""){
+      Provider.of<BoardProvider>(context, listen: false)
+          .updateLabel(labelId, _labelTitleController.text, selectedColorName)
+          .then((_) {
+        // Call the onRefresh callback if it exists
+        if (widget.onRefresh != null) {
+          widget.onRefresh!();
+        }
+      });
+
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+
+      ///Still Have To Update Locally (Name and Color)
+      //here
+
+    } else {
+      //Show Error, Label Name Cannot be empty
+      showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.info(
+          message: 'not_empty_name'.tr(),
+        ),
+      );
+    }
+  }
+
+  void _openLabelUpdateDialog(BuildContext context, String labelId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'labels.3'.tr(),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                TextField(
+                  controller: _labelTitleController,
+                  autofocus: true,
+                  onSubmitted: (_) {
+                    _handleLabelUpdate(labelId);
+                  }
+                ),
+                const SizedBox(height: 16),
+                GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 5,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  itemCount: labelColors.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String colorName = labelColors.keys.elementAt(index);
+                    Color color = labelColors[colorName]!;
+                    bool isSelected = color == selectedColor;
+
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedColor = color; // Update the selected color
+                          selectedColorName = colorName; // Update the selected color Name
+                        });
+
+                        _handleLabelUpdate(labelId);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isSelected ? Colors.black : Colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                        child: isSelected
+                            ? const Icon(Icons.check, color: Colors.white)
+                            : null, // Show icon if selected
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showLabelBottomSheet(BuildContext context, List<PlankaLabel>? allLabels, List<CardLabel> cardLabels, String cardId) {
     final Set<String?> cardLabelIds = cardLabels.map((label) => label.labelId).toSet();
     final TextEditingController labelController = TextEditingController();
     bool isAddingLabel = false;  // This controls whether to show the label creation text field
@@ -285,10 +380,16 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                         };
 
                         final matchingLabel = labelIdToLabel[label.id];
-                        final colorName = matchingLabel?.color;
+                        final colorName = matchingLabel?.color ?? 'indigo';
                         final color = labelColors[colorName] ?? Colors.indigo; // Fallback to indigo if not found
 
                         return GestureDetector(
+                          onLongPress: () {
+                            selectedColor = color;
+                            selectedColorName = colorName;
+                            _labelTitleController.text = label.name;
+                            _openLabelUpdateDialog(context, label.id);
+                          },
                           onTap: () {
                             if (isSelected) {
                               /// Remove Label
@@ -432,12 +533,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
     );
   }
 
-  void _showCardMembersBottomSheet(
-      BuildContext context,
-      List<PlankaUser> allMembers, // All available members (PlankaUser)
-      List<PlankaCardMembership>? cardMembers, // Card members, can be null
-      String cardId, // Card ID
-      ) {
+  void _showCardMembersBottomSheet(BuildContext context, List<PlankaUser> allMembers, List<PlankaCardMembership>? cardMembers, String cardId,) {
     // Create cardMemberIds from cardMembers, or use an empty set if cardMembers is null
     final Set<String> cardMemberIds = cardMembers != null
         ? cardMembers.map((member) => member.userId).toSet()
