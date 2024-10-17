@@ -5,6 +5,10 @@ Planka App is an open-source mobile application developed using [Flutter](https:
 ## Info
 This project is being developed by someone who has a full-time job, so it won't move as quickly as you might hope. You are welcome to participate as a maintainer! I will try my best to fix all issues as fast as possible.
 
+## Release
+
+All the APK´s of the versions can be found as attachments below each release. For IOS, please click [here](https://testflight.apple.com/join/Uwn41eY4) to join our testflight. We have a max. of 200 Users currently.
+
 ## Features
 
 - **Board Management**: Create and manage project boards.
@@ -77,10 +81,6 @@ Before contributing, please ensure that all changes:
 ## Issues
 
 If you find any bugs or want to suggest new features, feel free to [open an issue](https://github.com/LouisHDev/planka_app/issues).
-
-## Release
-
-All the APK´s of the versions can be found as attachments below each release. For IOS, please click [here](https://testflight.apple.com/join/Uwn41eY4) to join our testflight. We have a max. of 200 Users currently.
 
 ## Info
 
