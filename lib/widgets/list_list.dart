@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:planka_app/models/planka_card.dart';
@@ -55,9 +57,13 @@ class _ListListState extends State<ListList> {
 
   final ImagePicker _picker = ImagePicker();
 
+  Map<String, Color> labelColors = {};
+
   @override
   void initState() {
     super.initState();
+
+    loadLabelColors();
 
     // Initialize focus nodes and controllers
     for (var list in widget.lists) {
@@ -439,7 +445,6 @@ class _ListListState extends State<ListList> {
                     const SizedBox(height: 5,),
 
                   FutureBuilder<PlankaFullCard>(
-                    // key: ValueKey('1234_$index$cardIndex'),
                     future: cardFuture,
                     builder: (ctx, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -454,7 +459,7 @@ class _ListListState extends State<ListList> {
                         return Wrap(
                           spacing: 1.0,
                           runSpacing: 1.0,
-                          children: _buildLabelWidgets(card.labels, card2.cardLabels!),
+                          children: _buildLabelWidgets(card.labels, card2.cardLabels!, labelColors),
                         );
                       }
                     },
@@ -548,26 +553,49 @@ class _ListListState extends State<ListList> {
     );
   }
 
-  List<Widget> _buildLabelWidgets(List<PlankaLabel> cardLabels, List<CardLabel> previewLabels) {
+  // Load colors from JSON and store as Color objects
+  Future<void> loadLabelColors() async {
+    try {
+      String jsonString = await rootBundle.loadString('assets/labelColors.json');
+      // debugPrint(jsonString); // Log JSON content for debugging
+
+      // Parse JSON and convert each color to a Color object
+      final Map<String, dynamic> jsonMap = json.decode(jsonString);
+      setState(() {
+        labelColors = jsonMap.map((key, value) => MapEntry(key, _parseColor(value)));
+      });
+    } catch (e) {
+      print("Error loading or parsing colors: $e");
+    }
+  }
+
+  // Convert hex color string to Color object
+  Color _parseColor(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor; // Add opacity if missing
+    }
+    return Color(int.parse(hexColor, radix: 16));
+  }
+
+
+  List<Widget> _buildLabelWidgets(List<PlankaLabel> cardLabels, List<CardLabel> previewLabels, Map<String, Color> labelColors) {
     if (cardLabels.isEmpty || previewLabels.isEmpty) {
       return [];
     }
 
-    // Create a set of valid label IDs from previewLabels
     final validLabelIds = previewLabels.map((label) => label.labelId).toSet();
-
-    // Filter cardLabels to include only those with IDs in validLabelIds
-    final filteredLabels = cardLabels.where((label) {
-      final isValid = validLabelIds.contains(label.id);
-      return isValid;
-    }).toList();
+    final filteredLabels = cardLabels.where((label) => validLabelIds.contains(label.id)).toList();
 
     return filteredLabels.map((label) {
+      // Retrieve the color for this label from labelColors
+      final color = labelColors[label.color] ?? Colors.indigo; // Fallback to indigo if not found
+
       return Container(
         margin: const EdgeInsets.only(right: 4.0, bottom: 4.0),
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         decoration: BoxDecoration(
-          color: Colors.indigo,
+          color: color,
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Text(
@@ -930,14 +958,7 @@ class _ListListState extends State<ListList> {
     );
   }
 
-  Future<void> createCardAndAttachFile({
-    required BuildContext context,
-    required String listId,
-    required String boardId,
-    required String newCardName,
-    required String newPos,
-    required Future<File?> Function() pickFileFunction,  // This function will be used to pick files from gallery/camera/filepicker
-  }) async {
+  Future<void> createCardAndAttachFile({required BuildContext context, required String listId, required String boardId, required String newCardName, required String newPos, required Future<File?> Function() pickFileFunction,}) async {
     try {
       // Step 1: Create the new card
       final cardData = await context.read<ListProvider>().createCardForNewAttachment(

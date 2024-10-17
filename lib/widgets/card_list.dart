@@ -1,6 +1,9 @@
 
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:markdown_editor_plus/widgets/markdown_auto_preview.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:planka_app/models/planka_board.dart';
@@ -56,10 +59,15 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
   // A simple in-memory cache to store data
   Map<String, Image?> imageCache = {};
   Map<String, String> dueDateCache = {};
+
+  Map<String, Color> labelColors = {};
   
   @override
   void initState() {
     super.initState();
+
+    loadLabelColors();
+
     _descriptionController.text = widget.card.description ?? 'click_me_to_add_description'.tr();
 
     _animationController = AnimationController(
@@ -272,6 +280,14 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                       ...allLabels?.map((label) {
                         final bool isSelected = cardLabelIds.contains(label.id);
 
+                        final Map<String?, PlankaLabel?> labelIdToLabel = {
+                          for (var label in allLabels ?? []) label.id: label,
+                        };
+
+                        final matchingLabel = labelIdToLabel[label.id];
+                        final colorName = matchingLabel?.color;
+                        final color = labelColors[colorName] ?? Colors.indigo; // Fallback to indigo if not found
+
                         return GestureDetector(
                           onTap: () {
                             if (isSelected) {
@@ -316,7 +332,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
                             margin: const EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
                             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                             decoration: BoxDecoration(
-                              color: Colors.indigo,
+                              color: color,
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Row(
@@ -538,25 +554,54 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
     });
   }
 
-  List<Widget> _buildLabelWidgets(
-      List<CardLabel>? cardLabels,
-      List<PlankaLabel>? allLabels,
-      BuildContext context,
-      String cardId, // Add cardId as a parameter
-      ) {
+  // Load colors from JSON and store as Color objects
+  Future<void> loadLabelColors() async {
+    try {
+      String jsonString = await rootBundle.loadString('assets/labelColors.json');
+      // debugPrint(jsonString); // Log JSON content for debugging
+
+      // Parse JSON and convert each color to a Color object
+      final Map<String, dynamic> jsonMap = json.decode(jsonString);
+      setState(() {
+        labelColors = jsonMap.map((key, value) => MapEntry(key, _parseColor(value)));
+      });
+    } catch (e) {
+      print("Error loading or parsing colors: $e");
+    }
+  }
+
+  // Convert hex color string to Color object
+  Color _parseColor(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor; // Add opacity if missing
+    }
+    return Color(int.parse(hexColor, radix: 16));
+  }
+
+  List<Widget> _buildLabelWidgets(List<CardLabel>? cardLabels, List<PlankaLabel>? allLabels, BuildContext context, String cardId, Map<String, Color> labelColors) {
+
     final Map<String?, String?> labelIdToName = {
       for (var label in allLabels ?? []) label.id: label.name,
+    };
+
+    final Map<String?, PlankaLabel?> labelIdToLabel = {
+      for (var label in allLabels ?? []) label.id: label,
     };
 
     // Build the list of label widgets
     List<Widget> labelWidgets = cardLabels?.map((label) {
       final labelName = labelIdToName[label.labelId] ?? 'unknown_label'.tr();
 
+      final matchingLabel = labelIdToLabel[label.labelId];
+      final colorName = matchingLabel?.color;
+      final color = labelColors[colorName] ?? Colors.indigo; // Fallback to indigo if not found
+
       return Container(
         margin: const EdgeInsets.only(right: 4.0, bottom: 4.0),
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         decoration: BoxDecoration(
-          color: Colors.indigo,
+          color: color,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Text(
@@ -798,7 +843,7 @@ class _CardListState extends State<CardList> with SingleTickerProviderStateMixin
             children: [
 
               Wrap(
-                children: _buildLabelWidgets(widget.card.cardLabels, widget.previewCard.labels, context, widget.card.id),
+                children: _buildLabelWidgets(widget.card.cardLabels, widget.previewCard.labels, context, widget.card.id, labelColors),
               ),
 
               Row(
