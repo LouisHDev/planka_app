@@ -44,7 +44,6 @@ class _ListListState extends State<ListList> {
   // Add FocusNode to control focus on the TextField
   final Map<String, FocusNode> _focusNodesListTitle = {};
   final Map<String, FocusNode> _focusNodesListNewCard = {};
-  // final Map<String, bool> _isEditingListName = {};
   final Map<String, Future<PlankaFullCard>> _cardFutures = {};
 
   // A simple in-memory cache to store data

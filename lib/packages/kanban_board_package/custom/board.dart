@@ -328,7 +328,7 @@ class _BoardState extends ConsumerState<Board> {
                                   // Render all lists if any exist
                                   ...boardProv.board.lists.map((e) {
                                     return Container(
-                                      margin: const EdgeInsets.only(left: 20),
+                                      margin: const EdgeInsets.only(left: 15),
                                       child: BoardList(index: boardProv.board.lists.indexOf(e)),
                                     );
                                   }),
@@ -338,7 +338,7 @@ class _BoardState extends ConsumerState<Board> {
                                   Container(
                                     margin: const EdgeInsets.only(top: 20, right: 30),
                                     padding: const EdgeInsets.only(bottom: 20),
-                                    width: 300,
+                                    width: MediaQuery.of(context).size.width * 0.9,
                                     color: const Color.fromARGB(255, 247, 248, 252),
                                     child: Wrap(
                                       children: [
@@ -392,7 +392,7 @@ class _BoardState extends ConsumerState<Board> {
                                     },
                                     child: Container(
                                       height: 50,
-                                      width: 300,
+                                      width: MediaQuery.of(context).size.width * 0.9,
                                       margin: const EdgeInsets.only(top: 20, right: 20),
                                       decoration: BoxDecoration(
                                         color: const Color.fromARGB(255, 247, 248, 252),
