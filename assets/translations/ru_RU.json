@@ -1,0 +1,115 @@
+{
+  "app_name": "Planka",
+  "login": "Войти",
+  "logout": "Выйти",
+  "not_available_function": "Эта функция пока недоступна.",
+  "project_name": "Название проекта",
+  "create_project": "Создать проект",
+  "create_card": "Добавить карточку",
+  "login_fields": {
+    "0": "Email",
+    "1": "Пароль",
+    "2": "Адрес сервера (без https://)"
+  },
+  "not_valid_image": "Неподдерживаемый формат.",
+  "settings": "Настройки",
+  "change": "Изменить",
+  "not_empty_name": "Имя должно быть задано.",
+  "sort_after": "Сортировка",
+  "move_all_from_list": "Переместить все карточки в этом списке",
+  "archive_all_from_list": "Архивировать все карточки в этом списке",
+  "delete_list": "Удалить список",
+  "card_not_found": "Карточка не найдена",
+  "cancel": "Отмена",
+  "delete": "Удалить",
+  "no_boards": "Нет доступных досок",
+  "edit_board": "Изменить доску",
+  "board_name": "Имя доски",
+  "lists_for": "Списки для",
+  "boards_for": "Доски для",
+  "file_picker": {
+    "from_gallery": "Из галереи",
+    "from_photo": "Сделать фото",
+    "from_file": "Выбрать файл"
+  },
+  "failed_to_authenticate": "Ошибка аутентификации",
+  "new_card": "Новая карточка",
+  "uploading_file": "Загрузка файла...",
+  "downloaded_file": "Вложение успешно загружено.",
+  "error_creating_card_missing_id": "Ошибка создания карточки: Некорректный или отсутствующий ID.",
+  "added_attachment": "Вложение успешно добавлено",
+  "no_file_selected": "Файл не выбран",
+  "error": "Ошибка",
+  "delete_list_confirmation": {
+    "0": "Удалить список",
+    "1": "Вы уверены, что хотите удалить этот список?"
+  },
+  "delete_card_confirmation": {
+    "0": "Удалить карточку",
+    "1": "Вы уверены, что хотите удалить эту карточку?"
+  },
+  "delete_attachment_confirmation": {
+    "0": "Удалить вложение",
+    "1": "Вы уверены, что хотите удалить это вложение?"
+  },
+  "delete_comment_confirmation": {
+    "0": "Удалить комментарий",
+    "1": "Вы уверены, что хотите удалить этот комментарий?"
+  },
+  "delete_task_confirmation": {
+    "0": "Удалить задачу",
+    "1": "Вы уверены, что хотите удалить эту задачу?"
+  },
+  "delete_board_confirmation": {
+    "0": "Удалить доску",
+    "1": "Вы уверены, что хотите удалить эту доску?"
+  },
+  "delete_project_confirmation": {
+    "0": "Удалить проект",
+    "1": "Вы уверены, что хотите удалить этот проект?"
+  },
+  "posted_on": "Опубликован",
+  "comment_not_empty": "Комментарий не может быть пустым",
+  "comments": "Комментарии",
+  "no_comments_available": "Нед доступных комментариев",
+  "write_comment": "Напишите комментарий...",
+  "write_task": "Добавить задачу",
+  "downloading_file": "Загрузка вложения...",
+  "attachment_no_url": "Это вложение не имеет URL",
+  "attachments": "Вложения",
+  "tasks": "Задачи",
+  "description": "Описание",
+  "unknown_label": "Неизвестная метка",
+  "labels": {
+    "0": "Название метки",
+    "2": "Название уже существует.",
+    "3": "Изменить метку"
+  },
+  "click_me_to_add_description": "Нажмите, чтобы добавить описание.",
+  "stopwatch_controls": {
+    "title": "Управление таймером",
+    "set_time": "Установить время",
+    "hours": "Часы",
+    "minutes": "Минуты",
+    "seconds": "Секунды",
+    "timer_already_present": "Таймер уже существует для этой карточки.",
+    "timer_create": "Создать таймер"
+  },
+  "members": "Участники",
+  "create_board": {
+    "create_new_board": "Создать новую доску",
+    "board_name": "Название доски",
+    "enter_board_name": "Введите название доски"
+  },
+  "create_project_dialog": {
+    "create_new_project": "Создать новый проект",
+    "project_name": "Название проекта",
+    "enter_project_name": "Введите название проекта"
+  },
+  "create": "Создать",
+  "create_list": "Создать список",
+  "new_list": "Новый список",
+  "create_list_left": "Создать новый список слева",
+  "create_list_right": "Создать новый список справа",
+  "not_enough_rights": "У вас недостаточно прав."
+}
