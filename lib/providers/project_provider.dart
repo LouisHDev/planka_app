@@ -16,7 +16,7 @@ class ProjectProvider with ChangeNotifier {
   List<PlankaProject> get projects => _projects;
 
   Future<void> fetchProjects() async {
-    final url = Uri.parse('https://${authProvider.domain}/api/projects');
+    final url = Uri.parse('${authProvider.selectedProtocol}://${authProvider.domain}/api/projects');
 
     try {
       final response = await http.get(
